@@ -1,0 +1,13 @@
+{
+  "name": "bioland",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/scbd/bioland-public.git",
+  "license": "MIT",
+  "scripts": {
+    "clean-install": "if test -f yarn.lock; then rm yarn.lock; fi && if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
+  },
+  "devDependencies": {
+    "bioland-config": "scbd/bioland-config"
+  }
+}

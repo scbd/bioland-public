@@ -1,0 +1,73 @@
+.field--name-field-dates,
+.field--name-field-url,
+.field--type-address,
+.field--name-node-post-date,
+.field--type-flexible-daterange,
+.field--name-field-facebook-url,
+.field--name-field-publication-date {
+  .gray-text();
+
+  &:before:extend(.glyphicon all) {
+    margin-right: .2em;
+    min-width: 1.2em;
+  }
+
+  &.field--label-above:before {
+    float: left;
+  }
+
+  &.field--label-inline > .field--label:after {
+    content: ':';
+  }
+
+  .bio-teaser-item &,
+  .bio-teaser-item--homepage & {
+    font-size: .9em;
+  }
+
+  .bio-teaser-item,
+  .bio-teaser-item--homepage & {
+    float: left;
+  }
+}
+
+// Icons
+.field--name-field-publication-date:before,
+.field--name-field-dates:before,
+.field--type-flexible-daterange:before,
+.field--name-node-post-date:before { &:extend(.glyphicon-calendar:before all); }
+
+.field--name-field-url:before { &:extend(.glyphicon-link:before all); }
+
+.field--type-address:before { &:extend(.glyphicon-map-marker:before all); }
+
+.field--name-field-facebook-url:before { &:extend(.glyphicon-facebook:before all); }
+
+.field--name-field-url {
+  a { color: @brand-secondary; }
+}
+
+.field--type-address {
+  .address {
+    display: inline-flex;
+    flex-flow: row wrap;
+    > span {
+      margin-left: .3em;
+      &:not(:last-child):after {
+        content: ',';
+      }
+    }
+  }
+
+  &.field--label-hidden,
+  &.field--label-inline {
+    display: flex;
+  }
+
+  &.field--label-hidden,
+  &.field--label-above {
+    .address {
+      margin-left: -.3em;
+    }
+  }
+}

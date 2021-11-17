@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_un_number
+    - taxonomy.vocabulary.countries
+id: taxonomy_term.countries.field_un_number
+field_name: field_un_number
+entity_type: taxonomy_term
+bundle: countries
+label: 'UN number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+configure GBIF Stats:
+  title: 'Configure GBIF Stats'
+  description: 'Allow the configuration of the GBIF Stats module'
+generate GBIF Stats:
+  title: 'Generate GBIF Stats'
+  description: 'Allow the generation of data files use by the display page'
+view GBIF Stats:
+  title: 'View GBIF Stats'
+  description: 'View the GBIF statistiques'

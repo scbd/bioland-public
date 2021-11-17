@@ -1,0 +1,13 @@
+name: 'CHM common functionality'
+description: Contains code shared among the entire CHM Network sites. This module is ENABLED in all sites!
+type: module
+core: 8.x
+package: Bioland
+config_devel:
+  install:
+    - migrate_plus.migration.chm_nbsap_migration
+    - migrate_plus.migration_group.chm
+dependencies:
+  - migrate
+  - migrate_plus
+  - link

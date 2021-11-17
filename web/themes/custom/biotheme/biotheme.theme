@@ -1,0 +1,273 @@
+<?php
+
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Component\Serialization\Json;
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function biotheme_suggestions_page_alter(array &$suggestions, array $variables) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    if (is_string($node)) {
+      $node = \Drupal\node\Entity\Node::load($node);
+    }
+    if (is_object($node)) {
+      $content_type = $node->bundle();
+      $suggestions[] = 'page__' . $content_type;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function biotheme_preprocess_page(&$variables) {
+  $site_environment = \Drupal::service('settings')->get('environment');
+  $variables['site_environment'] = $site_environment;
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function biotheme_preprocess_page_title(&$variables) {
+  $route = \Drupal::routeMatch();
+  if (($route->getRouteName() == 'entity.node.canonical') && ($node = $route->getParameter('node'))) {
+    if (is_object($node) && $node->bundle() == 'page') {
+      if($node->field_hide_page_title->value == true) {
+        $variables['title_attributes']['class'][] = 'sr-only';
+        $variables['title_attributes']['class'][] = 'visually-hidden';
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function biotheme_preprocess_block(&$variables) {
+  switch ($variables['base_plugin_id']) {
+    case 'system_branding_block':
+      $theme_logo = theme_get_setting('logo');
+      if (!empty($theme_logo['use_default'])) {
+        $theme = \Drupal::service('theme.manager')->getActiveTheme();
+        $path = $theme->getPath();
+        $language =  \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $variables['site_logo'] = '/' . $path . '/images/logo-' . $language . '.svg';
+      }
+      break;
+   case 'language_block': //remove contextual link on language switcher - obscured display
+      if (isset($variables['title_suffix']['contextual_links'])) {
+        unset($variables['title_suffix']['contextual_links']);
+        unset($variables['elements']['#contextual_links']);
+        $variables['attributes']['class'] = array_diff($variables['attributes']['class'], ['contextual-region']);
+    }
+    break;
+  }
+
+  switch ($variables['plugin_id']) {
+    case 'menu_block:bioland---footer':
+      $variables['year'] = date('Y');
+      break;
+  }
+
+  if (isset($variables['elements']['#id'])) {
+    $block_id = $variables['elements']['#id'];
+    $block = \Drupal\block\Entity\Block::load($block_id);
+
+    if ($block) {
+      $block_region = $block->getRegion();
+
+      // Add custom classes for blocks based on id and the region they're included in
+      $variables['attributes']['class'][] = 'block-' . $block_id;
+      $variables['attributes']['class'][] = 'block-' . $block_id . '--region-' . $block_region;
+
+      // Add custom classes for menus
+      if(!empty($variables['content']['#menu_name'])) {
+        $variables['content']['#attributes']['class'][] = $block_id;
+        $variables['content']['#attributes']['class'][] = $block_id . '--region-' . $block_region;
+        $variables['content']['#attributes']['data-block_id'] = $block_id;
+        $variables['content']['#attributes']['data-region'] = $block_region;
+      }
+    }
+  }
+}
+
+function biotheme_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
+    if (isset($variables['attributes']['data-region']) && isset($variables['attributes']['data-block_id'])) {
+      $suggestions[] = $variables['theme_hook_original'] . '__' . $variables['attributes']['data-region'];
+      $suggestions[] = $variables['theme_hook_original'] . '__' . $variables['attributes']['data-block_id'] . '__' . $variables['attributes']['data-region'];
+    }
+}
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function biotheme_preprocess_image(&$variables) {
+  // Some images should show title as caption.
+  // The use-title-caption attributes is a common flag for this.
+  // see preprocess_field to check where it is set.
+  if (!empty($variables['attributes']['use-title-caption'])) {
+    unset($variables['attributes']['use-title-caption']);
+    $variables['use_title_caption'] = TRUE;
+  }
+
+  if (!empty($variables['attributes']['image_style'])) {
+    $variables['attributes']['class'][] = 'image-style--' . $variables['attributes']['image_style'];
+  }
+
+  $variables['is_blazy'] = FALSE;
+  // Change the default placeholder shown while loading a blazy image
+  // with a compressed version of the image.
+  if (!empty($variables['attributes']['class']) && !empty($variables['attributes']['uri']) && in_array('b-lazy', $variables['attributes']['class'])) {
+    $variables['is_blazy'] = TRUE;
+    $image_style = $variables['attributes']['image_style'];
+    // Original image uri (no image style).
+    $uri = $variables['attributes']['uri'];
+    // Original image with image style.
+    $current_uri_with_style = !empty($image_style) ? ImageStyle::load($image_style)->buildUri($uri) : $uri;
+
+    // Use the 'blazy_placeholder' image style to create a much smaller
+    // version of the image which will then be stretched to fit the container
+    // and blurred with css.
+    $img = ImageStyle::load('blazy_placeholder')->buildUri($current_uri_with_style);
+    ImageStyle::load('blazy_placeholder')->createDerivative($current_uri_with_style, $img);
+
+    if (file_exists($uri) && file_exists($img)) {
+      // Encode the image in base64 to speed up loading times.
+      $imgbinary = fread(fopen($img, "r"), filesize($img));
+      $filetype = mime_content_type($img);
+      $img_base64 = 'data:' . $filetype . ';base64,' . base64_encode($imgbinary);
+
+      // Update the placeholder URI.
+      $variables['attributes']['src'] = $img_base64;
+
+      unset($variables['attributes']['image_style']);
+      unset($variables['attributes']['uri']);
+    }
+  }
+}
+
+function biotheme_preprocess_form_element(&$variables) {
+  if (!empty($variables['name']) && $variables['name'] == 'lang_dropdown_select') {
+    $id = $variables['element']['#attributes']['id'];
+    $variables['label']['#id'] = $id;
+  }
+}
+
+function biotheme_preprocess_field(&$variables) {
+  switch ($variables['field_name']) {
+    case 'field_html':
+      if ($variables['element']['#object']->bundle() == 'content_html') {
+        /* @var \Drupal\paragraphs\Entity\Paragraph */
+        $paragraph = $variables['element']['#object'];
+        $col_no = [12, 12];
+        if (!empty($paragraph->field_grid_style->value)) {
+          $ratios = explode('_', $paragraph->field_grid_style->value);
+          $col = 12 / array_sum($ratios);
+          foreach ($ratios as $idx => $val) {
+            $col_no[$idx] = $col * $val;
+          }
+        }
+        $variables['column_numbers'] = $col_no;
+      }
+      break;
+  }
+  $image_fields = [
+    'field_image',
+  ];
+  $is_image_field = in_array($variables['field_name'], $image_fields);
+  if (!empty($variables['items'])) {
+    foreach ($variables['items'] as &$item) {
+      if (!empty($item['content']['#theme']) && $item['content']['#theme'] == 'blazy') {
+        /** @var \Drupal\image\Plugin\Field\FieldType\ImageItem $build_item */
+        $build_item = $item['content']['#build']['item'];
+        $value = $build_item->getValue();
+        $file = File::load($value['target_id']);
+        $value['_attributes']['uri'] = $file->getFileUri();
+        $value['_attributes']['image_style'] = $item['content']['#image_style'];
+        $build_item->setValue($value);
+      }
+    }
+  }
+}
+
+/**
+* preprocess variables for slick.html.twig templates.
+*/
+function biotheme_preprocess_slick(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  if($language->getDirection() == 'rtl') {
+
+    $settings = $variables['content_attributes']->offsetGet('data-slick');
+    if(!empty($settings)) {
+      $settings = Json::decode($settings->value());
+      $settings['rtl'] = true;
+      $settings = Json::encode($settings);
+      $variables['content_attributes']->setAttribute('data-slick', $settings);
+    }
+  }
+}
+
+function biotheme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'search_block_form') {
+    $form['actions']['submit']['#clean_submit'] = true;
+  }
+}
+
+function biotheme_preprocess_input(&$variables) {
+  if( $variables['theme_hook_original'] == 'input__submit' && !empty($variables['element']['#clean_submit']) ) {
+    $classes = $variables['element']['#attributes']['class'];
+    $variables['clean_submit'] = true;
+  }
+}
+
+function biotheme_preprocess_views_view(&$vars) {
+  /** @var \Drupal\views\ViewExecutable $view */
+  $view = &$vars['view'];
+  if ($view->id() == 'search') {
+    $vars['#attached']['library'][] = 'blazy/blazy';
+    $vars['#attached']['library'][] = 'blazy/load';
+  }
+}
+
+function biotheme_preprocess_views_view_field(&$variables) {
+  $field = $variables['field'];
+  if ($field instanceof \Drupal\search_api\Plugin\views\field\SearchApiStandard) {
+    if ($field->field == 'rendered_item') {
+      $value = $variables['row']->{$field->field_alias};
+      if (is_array($value)) {
+        $value = reset($value);
+      }
+      if ($value instanceof \Drupal\search_api\Plugin\search_api\data_type\value\TextValue) {
+        // We store the rendered entity as a field in SOLR and we want to render
+        // the raw text containing all html elements.
+        $variables['output'] = \Drupal\Core\Render\Markup::create($value->getText());
+      }
+    }
+  }
+}
+
+function biotheme_preprocess_maintenance_page(&$variables) {
+  $theme = \Drupal::service('theme.manager')->getActiveTheme();
+  $path = $theme->getPath();
+  $language =  \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['logo'] = '/' . $path . '/images/logo-' . $language . '.svg';
+}
+
+function biotheme_preprocess_menu_local_task(&$variables) {
+  /** @var \Drupal\Core\Url $url */
+  $url = $variables['element']['#link']['url'];
+  $route = $url->getRouteName();
+  $split = explode('.', $route);
+  if(strpos($route, 'layout_builder.overrides') === 0) {
+    $url->setOptions([
+      'attributes' => [
+        'class' => [
+          'layout-link',
+          'layout-link-' . end($split)
+        ]
+      ]
+    ]);
+  }
+}

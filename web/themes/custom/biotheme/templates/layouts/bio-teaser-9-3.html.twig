@@ -1,0 +1,21 @@
+{%
+set classes = [
+'bio-teaser-item',
+'bio-teaser-item--9-3'
+]
+%}
+
+{% if content %}
+<div{{ attributes.addClass(classes) }}>
+  <div class="row">
+    {% spaceless %}
+    <div class="bio-teaser-item__media col-sm-3 col-sm-push-9">
+      {{ content.right }}
+    </div>
+    <div class="bio-teaser-item__content col-sm-9 col-sm-pull-3">
+      {{ content.left }}
+    </div>
+    {% endspaceless %}
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,523 @@
+chm_common.admin_config_bioland:
+  parent: system.admin_config
+  route_name: chm_common.admin_config_bioland
+  title: 'Bioland configuration'
+  weight: -50
+
+chm_common.statistics_settings:
+  title: 'Content statistics block'
+  description: 'Configuration for the content statistics block'
+  route_name: chm_common.statistics_settings
+  parent: chm_common.admin_config_bioland
+  class: Drupal\Core\Menu\MenuLinkDefault
+  weight: 0
+
+chm_common.dashboard.cm:
+  title: 'Content Management'
+  description: 'Content management tasks'
+  route_name: system.admin_content
+  menu_name: dashboard
+  weight: -50
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-inbox
+
+chm_common.dashboard.cm.create_content:
+  title: 'Create new content'
+  description: 'Add new content in Bioland'
+  parent: chm_common.dashboard.cm
+  route_name: node.add_page
+  menu_name: dashboard
+  weight: -45
+  options:
+    attributes:
+      class:
+      - fa
+      - fa fa-plus-circle
+
+chm_common.dashboard.cm.all_content:
+  title: 'All content'
+  description: 'View all content from your website'
+  parent: chm_common.dashboard.cm
+  route_name: system.admin_content
+  menu_name: dashboard
+  weight: -40
+  options:
+    attributes:
+      class:
+      - fa
+      - fa fa-list
+
+
+chm_common.dashboard.cm.draft_content:
+  title: 'All drafted content'
+  description: 'View all drafted content'
+  parent: chm_common.dashboard.cm
+  route_name: view.all_moderated_content.moderated_content
+  menu_name: dashboard
+  weight: -35
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.cm.own_draft_content:
+  title: 'Own drafted content'
+  description: 'View your drafted content'
+  parent: chm_common.dashboard.cm
+  route_name: view.own_moderated_content.moderated_content
+  menu_name: dashboard
+  weight: -34
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.cm.archived_content:
+  title: 'View archived content'
+  description: 'Archived content is kept in database but not published anymore. Regular visitors cannot view this content'
+  parent: chm_common.dashboard.cm
+  route_name: view.archived_moderated_content.archived_content
+  menu_name: dashboard
+  weight: -33
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-archive
+
+chm_common.dashboard.cm.tx_keywords:
+  title: 'Taxonomy - Keywords'
+  description: 'Manage the Keywords taxonomy'
+  parent: chm_common.dashboard.cm
+  route_name: entity.taxonomy_vocabulary.overview_form
+  route_parameters: { taxonomy_vocabulary : 'keywords' }
+  menu_name: dashboard
+  weight: -32
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-sticky-note-o
+
+chm_common.dashboard.cm.blocks:
+  title: 'Manage blocks'
+  description: 'Manage the block arrangement within the pages'
+  parent: chm_common.dashboard.cm
+  route_name: block.admin_display
+  menu_name: dashboard
+  weight: -30
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-th
+
+chm_common.dashboard.cm.slideshow:
+  title: 'Home page slideshow'
+  description: 'Manage the content of the slide show displayed in the home page'
+  parent: chm_common.dashboard.cm
+  url: internal:/admin/structure/entityqueue/slideshow/slideshow
+  menu_name: dashboard
+  weight: -25
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-film
+
+chm_common.dashboard.cm.trans_ui:
+  title: 'Translate user interface'
+  description: 'Translate strings (NOT content) that appears in various parts of your website'
+  parent: chm_common.dashboard.cm
+  route_name: locale.translate_page
+  menu_name: dashboard
+  weight: -20
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-sign-language
+
+chm_common.dashboard.cm.trans_cfg:
+  title: 'Translate configuration'
+  description: 'Some of the strings and labels are stored as configuration. You can translate those too'
+  parent: chm_common.dashboard.cm
+  route_name: config_translation.mapper_list
+  menu_name: dashboard
+  weight: -15
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-american-sign-language-interpreting
+
+chm_common.dashboard.users:
+  title: 'User management'
+  description: 'Manage accounts'
+  route_name: entity.user.collection
+  menu_name: dashboard
+  weight: -5
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-users
+
+chm_common.dashboard.users.list:
+  title: 'View existing accounts'
+  description: 'View existing accounts'
+  parent: chm_common.dashboard.users
+  route_name: entity.user.collection
+  menu_name: dashboard
+  weight: 0
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-users
+
+chm_common.dashboard.users.create:
+  title: 'Create new account'
+  description: 'Create a new account for someone to log in into the system'
+  parent: chm_common.dashboard.users
+  route_name: user.admin_create
+  menu_name: dashboard
+  weight: -5
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-user-plus
+
+chm_common.dashboard.structure:
+  title: 'Website structure'
+  description: 'Change structural elements on your website like blocks, menus, links, web forms'
+  route_name: system.admin_structure
+  menu_name: dashboard
+  weight: 0
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-cubes
+
+chm_common.dashboard.structure.menu_list:
+  title: 'All menus'
+  description: 'Overview screen with a list of all existing menus'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.collection
+  menu_name: dashboard
+  weight: 5
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-list
+
+chm_common.dashboard.structure.menu_main:
+  title: 'Menu - Main menu'
+  description: 'Manage the links of the main menu underneath the header'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.edit_form
+  route_parameters: { menu : 'main' }
+  menu_name: dashboard
+  weight: 10
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.structure.menu_quick_links:
+  title: 'Menu - Green - Quick links'
+  description: 'Manage the links from the Quick links menu from the green area on the home page'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.edit_form
+  route_parameters: { menu : 'quick-links' }
+  menu_name: dashboard
+  weight: 15
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.structure.menu_footer:
+  title: 'Menu - Green - CBD links'
+  description: 'Manage the links from the CBD links menu from the green area on the home page'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.edit_form
+  route_parameters: { menu : 'footer' }
+  menu_name: dashboard
+  weight: 20
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.structure.menu_bioland:
+  title: 'Menu - Green - Country Specific links'
+  description: 'Manage the links from the Bioland menu from the green area on the home page'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.edit_form
+  route_parameters: { menu : 'bioland---footer---bioland-' }
+  menu_name: dashboard
+  weight: 25
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.structure.menu_social_media:
+  title: 'Menu - Green - Social media'
+  description: 'Manage the links from the Social Media menu from the green area on the home page'
+  parent: chm_common.dashboard.structure
+  route_name: entity.menu.edit_form
+  route_parameters: { menu : 'bioland---footer---social-m' }
+  menu_name: dashboard
+  weight: 30
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-bars
+
+chm_common.dashboard.structure.url_aliases:
+  title: 'Manage URL aliases'
+  description: 'Configure the URL pattern for your content. Controls how automated links are generated when adding new content'
+  parent: chm_common.dashboard.structure
+  route_name: path.admin_overview
+  menu_name: dashboard
+  weight: 35
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-link
+
+chm_common.dashboard.structure.url_redirects:
+  title: 'Manage URL redirects'
+  description: 'Manage URL redirects inside your site. Manage content URLs to improve your site navigation'
+  parent: chm_common.dashboard.structure
+  route_name: redirect.list
+  menu_name: dashboard
+  weight: 40
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-refresh
+
+chm_common.dashboard.structure.webforms:
+  title: 'Manage web forms'
+  description: 'Create new data collection forms. Click to view a list of existing forms'
+  parent: chm_common.dashboard.structure
+  route_name: entity.webform.collection
+  menu_name: dashboard
+  weight: 45
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-list
+
+chm_common.dashboard.structure.content_stats:
+  title: 'Content statistics block'
+  description: 'Customize the display of the content statistics block from home page'
+  parent: chm_common.dashboard.structure
+  route_name: chm_common.statistics_settings
+  menu_name: dashboard
+  weight: 50
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-pie-chart
+
+chm_common.dashboard.community:
+  title: 'Community'
+  description: 'Tools to facilitate communication with your target audience'
+  route_name: system.admin_structure
+  menu_name: dashboard
+  weight: 55
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-user-circle
+
+chm_common.dashboard.community.contact_form_submissions:
+  title: 'Contact form submissions'
+  description: 'View the list of feedback sent through the contact form'
+  parent: chm_common.dashboard.community
+  route_name: entity.webform.results_submissions
+  route_parameters: { webform : 'contact' }
+  menu_name: dashboard
+  weight: 60
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-comments
+
+chm_common.dashboard.community.contact_form:
+  title: 'View the contact form'
+  description: 'See how to the website contact form looks like'
+  parent: chm_common.dashboard.community
+  url: internal:/form/contact
+  menu_name: dashboard
+  weight: 65
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-commenting
+
+chm_common.dashboard.config:
+  title: 'Website configuration'
+  description: 'Configure website functionality'
+  route_name: system.admin_config
+  menu_name: dashboard
+  weight: 70
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-cogs
+
+chm_common.dashboard.config.site:
+  title: 'Basic site configuration'
+  description: 'Configure settings like website title, slogan and email addresses'
+  parent: chm_common.dashboard.config
+  route_name: system.site_information_settings
+  menu_name: dashboard
+  weight: 75
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-cog
+
+chm_common.dashboard.config.logo_ui:
+  title: 'Website logo & UI'
+  description: 'Change theme settings: logo, add custom CSS etc.'
+  parent: chm_common.dashboard.config
+  route_name: system.theme_settings_theme
+  route_parameters: { theme : 'biotheme' }
+  menu_name: dashboard
+  weight: 80
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-television
+
+chm_common.dashboard.config.caches:
+  title: 'Clear the caches'
+  description: 'When everything fails, push the holy button'
+  parent: chm_common.dashboard.config
+  route_name: system.performance_settings
+  menu_name: dashboard
+  weight: 85
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-ambulance
+
+chm_common.dashboard.config.date_time:
+  title: 'Date and time formats'
+  description: 'Configure the format for date and time to your preferences (i.e. 14:35:59, 17/Jun/2013 etc.)'
+  parent: chm_common.dashboard.config
+  route_name: entity.date_format.collection
+  menu_name: dashboard
+  weight: 90
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-clock-o
+
+chm_common.dashboard.config.password_protect:
+  title: 'Password protect the website'
+  description: 'Instead of regular website pages, a login window will be shown to any visitor. You can send the password to some people to be able to view your website'
+  parent: chm_common.dashboard.config
+  route_name: shield.settings
+  menu_name: dashboard
+  weight: 95
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-lock
+
+chm_common.dashboard.config.regional:
+  title: 'Regional settings'
+  description: 'Configure default regional settings for your website like country, first day of week, time zone etc.'
+  parent: chm_common.dashboard.config
+  route_name: system.regional_settings
+  menu_name: dashboard
+  weight: 100
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-map
+
+chm_common.dashboard.config.cron:
+  title: 'Check CRON'
+  description: 'Review and check the background task scheduler. You can force it run if it becomes stuck. Background task schedules cleans temporary files, sends scheduled emails etc.'
+  parent: chm_common.dashboard.config
+  route_name: system.cron_settings
+  menu_name: dashboard
+  weight: 105
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-clock-o
+
+chm_common.dashboard.config.stop:
+  title: 'Emergency STOP'
+  description: 'Put your website in maintenance mode, your visitors will see only a custom message instead of regular page content. Visitors cannot access any pages. Use with care in case of emergency!'
+  parent: chm_common.dashboard.config
+  route_name: system.site_maintenance_mode
+  menu_name: dashboard
+  weight: 110
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-exclamation-triangle
+
+chm_common.dashboard.help:
+  title: 'Help'
+  description: 'Help, Information, and training'
+  menu_name: dashboard
+  route_name: "<nolink>"
+  weight: 115
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-question-circle
+
+chm_common.dashboard.manual:
+  title: 'Read the manual'
+  description: 'When everything fails read the Bioland user manual'
+  parent: chm_common.dashboard.help
+  url: https://www.chm-cbd.net/support/bioland-tool/manual
+  menu_name: dashboard
+  weight: 120
+  options:
+    attributes:
+      class:
+      - fa
+      - fa-book

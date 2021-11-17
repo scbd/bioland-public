@@ -1,0 +1,15 @@
+ .pagination {
+  @media @grid-desktop {
+    float: right;
+  }
+  > li {
+    display: inline-block;
+  }
+  > li > a {
+    color: @text-color;
+    text-transform: lowercase;
+  }
+   > .active > a {
+    font-weight: 900;
+  }
+}

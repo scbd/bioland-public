@@ -1,0 +1,35 @@
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+@import (reference) "../libraries/font-awesome/less/variables.less";
+@import (reference) "../libraries/font-awesome/less/mixins.less";
+@import "../libraries/font-awesome/less/path.less";
+@import "../libraries/font-awesome/less/core.less";
+@import "../libraries/font-awesome/less/larger.less";
+@import "../libraries/font-awesome/less/fixed-width.less";
+@import "../libraries/font-awesome/less/list.less";
+@import "../libraries/font-awesome/less/bordered-pulled.less";
+@import "../libraries/font-awesome/less/animated.less";
+@import "../libraries/font-awesome/less/rotated-flipped.less";
+@import "../libraries/font-awesome/less/stacked.less";
+@import "../libraries/font-awesome/less/icons.less";
+@import "../libraries/font-awesome/less/screen-reader.less";
+
+@fa-font-path:        "../libraries/font-awesome/fonts";
+
+.fa-icon(@name) {
+  @icon: 'fa-var-@{name}';
+  .fa-icon();
+  content: @@icon;
+}
+
+a.fa {
+  font: inherit;
+  -webkit-font-smoothing: auto;
+  &:before {
+    .fa-icon();
+  }
+}
+

@@ -1,0 +1,23 @@
+<?php
+
+function chm_taxonomy_migration_install() {
+  \Drupal::database()->query('ALTER TABLE taxonomy_term_field_data MODIFY name VARCHAR(2048);')->execute();
+}
+
+
+/**
+ * Increase taxonomy term's name max_length.
+ */
+/*
+function chm_taxonomy_migration_update_8701(&$sandbox = NULL) {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $last_installed_schema_repository = \Drupal::service('entity.last_installed_schema.repository');
+
+  $entity_type = $definition_update_manager->getEntityType('taxonomy_term');
+  $field_storage_definitions = $last_installed_schema_repository->getLastInstalledFieldStorageDefinitions('taxonomy_term');
+  $name_definition = $field_storage_definitions['name'];
+  $name_definition->setSetting('max_length', 2048);
+  $definition_update_manager->updateFieldableEntityType($entity_type, $field_storage_definitions, $sandbox);
+  return t('Taxonomy term name max_length was increased.');
+}
+*/

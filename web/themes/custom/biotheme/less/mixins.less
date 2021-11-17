@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Responsive classes
+   ========================================================================== */
+
+.visible-mobile,
+.hidden-desktop {
+  @media @grid-desktop {
+    display: none !important;
+  }
+}
+.visible-desktop,
+.hidden-mobile {
+  @media @grid-mobile {
+    display: none !important;
+  }
+}
+/* ==========================================================================
+   Rem system helpers
+   ========================================================================== */
+
+.remify(@property, @value) {
+  & when (ispixel(@value)) {
+    @{property}: @value;
+    @{property}: unit(@value) * @rem-multiplier--desktop;
+  }
+  & when not (ispixel(@value)) {
+    @{property}: @value;
+  }
+}
+
+.responsive(@property, @value, @value-mobile: (floor(@value * @rem-system-base--mobile / @rem-system-base) * 1px)) {
+  .remify(@property, @value);
+
+  @media @grid-mobile {
+    @{property}: @value-mobile;
+  }
+}
+
+/* ==========================================================================
+   Bootstrap mixin overrides
+   ========================================================================== */
+
+.label-variant(@color) {
+  color: #fff;
+}
+
+.background-variant(@bg, @color) {
+  & when (@bg = @link-hover-color) {
+    background-color: @bg;
+    color: @color;
+    a,
+    .btn-link {
+      &, &:hover, &:focus, &:active {
+        color: @color;
+      }
+    }
+  }
+  & when not (@bg = @link-hover-color) {
+    background-color: @bg;
+    color: @color;
+    a,
+    .btn-link {
+      color: @color;
+      &:hover, &:focus, &:active {
+        color: @link-hover-color;
+        border-color: @link-hover-color;
+      }
+    }
+  }
+}
+
+.button-variant(@color; @background; @border) {
+  &.btn-border {
+    background-color: transparent;
+    border-color: @background;
+    color: @background;
+    &:hover, &:focus, &:active {
+      background-color: @background;
+      border-color: @background;
+      color: @color;
+    }
+  }
+}
+.collapse-visible-desktop() {
+  @media @grid-desktop {
+    > .collapse,
+    > .collapsing {
+      display: block;
+      height: auto !important;
+      opacity: 1;
+      overflow: visible;
+      transition: none;
+    }
+  }
+}
+
+.clearfix() {
+  &:before,
+  &:after {
+   width: 0;
+  }
+}
+
+/* ==========================================================================
+   Theme specific mixins
+   ========================================================================== */
+.svg-icon(@name) {
+  background-image: data-uri('image/svg+xml;charset=UTF-8', '@{images-path}@{name}.svg');
+  background-repeat: no-repeat;
+}
+.svg-icon(@name, @fill) {
+  @fill-string: '@{fill}';
+  @data-uri: data-uri('image/svg+xml;charset=UTF-8', '@{images-path}@{name}.svg');
+  @replace-fill-src: replace("@{data-uri}", "fill\%3D\%22\%23[\w]{3,6}\%22", escape('fill="@{fill-string}"'), "g");
+  @replace-stroke-src: replace("@{replace-fill-src}", "stroke\%3D\%22\%23[\w]{3,6}\%22", escape('stroke="@{fill-string}"'), "g");
+  background-image: e(@replace-stroke-src);
+  background-repeat: no-repeat;
+}
+
+.link() {
+  color: @link-color;
+  transition: color .2s, background-color .2s;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    color: @link-hover-color;
+  }
+}
+
+.gray-text() {
+  color: #777;
+}
+
+// In oreder to work, this requires a LESS feature to be implemented, see https://github.com/less/less.js/issues/1485
+// .glyphicon(@name, @pseudo: before ) {
+//   @glyphicon-name: glyphicon-@{name};
+//   &:@{pseudo} {
+//     &:extend(.glyphicon all);
+//     &:extend(.glyphicon-@{name}:before all);
+//   }
+// }
+
+/* ==========================================================================
+   Responsive font size
+   ========================================================================== */
+
+.responsive-font-size(@min-size-to-fit, @target-max-size) {
+  @max-vw: (floor(@target-max-size * 100 / @min-size-to-fit) * 1px);
+
+  @media (min-width: @grid-float-breakpoint) and (max-width: @max-vw) {
+    font-size: @min-size-to-fit * 1vw;
+  }
+  @media (min-width: (@max-vw + 1)) {
+    font-size: @target-max-size;
+  }
+}

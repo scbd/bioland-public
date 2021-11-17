@@ -1,0 +1,7 @@
+# We want to extend the system.site configuration
+system.site:
+  mapping:
+    # Our field name is 'chm_government'
+    chm_government:
+      type: string
+      label: 'If this is a national portal, this is the ISO country code for the government managing this website.'

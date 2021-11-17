@@ -1,0 +1,12 @@
+gbifstats:
+  version: 1.x
+  css:
+    theme:
+      css/gbifstats-theme.css: {}
+  js:
+    js/gbifstats.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupalSettings
+    - leaflet/leaflet

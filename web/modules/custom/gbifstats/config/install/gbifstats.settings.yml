@@ -1,0 +1,11 @@
+gbifstats:
+  page_title: 'GBIF Stats'
+  node_name: "Nom du noeud national"
+  website: "URL du site internet"
+  head_delegation: "Chef de la delegation"
+  node_manager: "Chef du point nodal"
+  link_page_GBIF: "Lien ver la page GBIF"
+  nb_publishers: "0"
+  nb_occurrences: "0"
+  categories: ['nb_fournisseurs', 'nb_occurrences', 'last_dataset']
+  display_map: 1

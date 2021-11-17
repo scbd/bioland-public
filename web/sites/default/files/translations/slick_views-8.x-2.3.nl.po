@@ -1,0 +1,24 @@
+# Dutch translation of Slick Views (8.x-2.3)
+# Copyright (c) 2020 by the Dutch translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Slick Views (8.x-2.3)\n"
+"POT-Creation-Date: 2020-05-10 16:07+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "- None -"
+msgstr "- Geen -"
+msgid "Field"
+msgstr "Veld"
+msgid "Use rendered output to group rows"
+msgstr "Gerenderde uitvoer gebruiken om rijen te groeperen"
+msgid "Remove tags from rendered output"
+msgstr "Elementen verwijderen van gerenderde uitvoer"
+msgid "Grouping field number %i"
+msgstr "Groepeerveld nummer %i"

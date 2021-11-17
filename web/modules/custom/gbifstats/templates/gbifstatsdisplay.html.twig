@@ -1,0 +1,132 @@
+{#
+/**
+ * @file
+ * Default theme implementation to print GBIF Stats text.
+ *
+ * Available variables (see gbifstats_theme in gbifstats.module):
+ *   - 'title'
+ *   - 'country_code'
+ *   - 'country_param'
+ *   - 'link_page_GBIF'
+ *   - 'node_manager'
+ *   - 'head_delegation'
+ *   - 'website'
+ *   - 'node_name'
+ *   - 'last_datasets'
+ *   - 'nb_publishers'
+ *   - 'nb_occurrences'
+ *   - 'display_map'
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="stats">
+
+    {#/*  General info */#}
+    {% if node_name is not empty or website is not empty or head_delegation is not empty or node_manager is not empty or link_page_GBIF is not empty %}
+        <div id="national_info">
+            {% if node_name is not empty %}
+                <p id="node_name">Nom du point nodal national : {{ node_name }}</p>
+            {% endif %}
+            {% if website is not empty %}
+                <p id="website">Site internet : <a href="{{ website }}" target="_blank">{{ website }}</a></p>
+            {% endif %}
+            {% if head_delegation is not empty %}
+                <p id="head_delegation">Chef de la delegation : {{ head_delegation }}</p>
+            {% endif %}
+            {% if node_manager is not empty %}
+                <p id="node_manager">Chef du point nodal national : {{ node_manager }}</p>
+            {% endif %}
+            {% if link_page_GBIF is not empty %}
+                <p id="link_page_GBIF">Lien vers la page GBIF : <a href="{{ link_page_GBIF }}" target="_blank">{{ link_page_GBIF }}</a></p>
+            {% endif %}
+        </div><hr/>
+    {% endif %}
+
+    {#/*  Check if we have stats */#}
+    {% if message_erreur is not sameas("NoError") %}
+        <p>La page a rencontrée une erreur : </p>
+        <p></p>
+        <p>{{ message_erreur }}</p>
+
+    {#/*  Start displaying stats */#}
+    {% else %}
+
+        <div class="stats-rond col-xs-12 col-sm-6">
+
+        {% if nb_publishers  is not sameas("NoSelect") or  nb_occurrences  is not sameas("NoSelect") %}
+            <p class="stats_texte">Sur le GBIF, pour la zone sélectionnée,</p>
+        {% endif %}
+
+        {#/*  Number of publishers number */#}
+        {% if nb_publishers is not sameas("NoSelect") %}
+
+            {% if country_param != country_code %}
+                <p class="stats_chiffre">{{ nb_publishers }}</p>
+            {% elseif nb_publishers|length > 0 %}
+                <p class="stats_chiffre"><a href="https://www.gbif.org/country/{{ country_code }}/summary" target="_blank">{{ nb_publishers }}</a></p>
+            {% else %}
+                <p class="stats_chiffre">Error : country unknow or getting no publishers</p>
+            {% endif %}
+
+            <p class="stats_texte">fournisseurs de donn&eacute;es publient</p>
+
+        {% endif %}
+
+        {#/*  Number of Occurrences number */#}
+        {% if nb_occurrences is not sameas("NoSelect") %}
+
+            {% if nb_occurrences|length > 0 %}
+                <p class="stats_chiffre"><a href="https://www.gbif.org/fr/occurrence/search?country={{ country_param }}&advanced=1" target="_blank">{{ nb_occurrences }}</a></p>
+            {% else %}
+                <p class="stats_chiffre">Error : country unknow or getting no occurrences</p>
+            {% endif %}
+
+
+            <p class="stats_texte">occurrences de donn&eacute;es</p>
+        {% endif %}
+
+        </div>
+        {#/*  End Number of Publishers & Occurrences number */#}
+
+        {#/*  Last datasets  */#}
+        {% if last_datasets is not sameas("NoSelect") %}
+
+            <div class="stats-dataset col-xs-12 col-sm-6">
+
+                {% if last_datasets|length > 0 %}
+                    <h3 class="stats_texte">Derniers jeux de données publi&eacute;s :</h3>
+                    <div class="stats_dataset">
+                        <ul>
+
+                            {% for dataset in last_datasets %}
+
+                                {% if dataset|length > 0 and dataset.key_dataset|length > 0 and dataset.title_dataset|length > 0 %}
+                                    <li class="stats_dataset_texte"><a href="https://www.gbif.org/dataset/{{ dataset.key_dataset }}" target="_blank">{{ dataset.title_dataset }}</a></li>
+                                {% elseif dataset|length > 0 %}
+                                    <li class="stats_dataset_texte">Error : dataset unknow</li>
+                                {% else %}
+                                    <li class="stats_dataset_texte">Error : No datasets</li>
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                {% endif %}
+
+            </div><hr/>
+
+        {% endif %}
+        {#/*  End Last datasets  */#}
+
+    {% endif %}
+    {#/*  End displaying stats */#}
+
+    {#/*  GBIF Maps */#}
+    {#/*  see js/gbifstats.js */#}
+    {% if display_map is sameas("oui") %}
+        {{ attach_library('gbifstats/gbifstats') }}
+        <div id= "gbifstatsmap"></div>
+    {% endif %}
+</div>

@@ -1,0 +1,62 @@
+<?php
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Move existing country terms to 'countries' taxonomy
+ */
+function chm_common_update_8001() {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('country');
+  $copies = [];
+  foreach ($terms as $term) {
+    $tid = $term->tid;
+    $country = Term::load($tid);
+    $fields = $country->getFields();
+    $copy = [];
+    foreach ($fields as $key => $field) {
+      $value = $country->$key->value != NULL ? $country->$key->value : $country->$key->target_id;
+      $copy[$key] = $value;
+    }
+    $copy['vid'] = 'countries';
+    $copies[] = $copy;
+    $country->delete();
+  }
+
+  foreach ($copies as $copy) {
+    Term::create($copy)->save();
+  }
+}
+
+/**
+ * Store image url to migrate it to other sites.
+ * See chm_common_taxonomy_term_presave().
+ */
+function chm_common_update_8002() {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('countries');
+  foreach ($terms as $term) {
+    $tid = $term->tid;
+    $country = Term::load($tid);
+    $country->save();
+  }
+}
+
+/**
+ * Clear the 'dashboard' menu to import new structure. Update username to match email.
+ */
+function chm_common_update_8003() {
+  $mids = \Drupal::entityQuery('menu_link_content')
+    ->condition('menu_name', 'dashboard')
+    ->sort('weight')
+    ->execute();
+  $controller = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $entities = $controller->loadMultiple($mids);
+  $controller->delete($entities);
+  \Drupal\structure_sync\StructureSyncHelper::importMenuLinks(['style' => 'safe', 'drush' => TRUE]);
+
+  $uids = \Drupal::entityQuery('user')->condition('uid', 0, '<>')->execute();
+  foreach($uids as $uid) {
+    $entity = \Drupal\user\Entity\User::load($uid);
+    $entity->setUsername($entity->getEmail());
+    $entity->save();
+  }
+}

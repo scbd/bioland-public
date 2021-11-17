@@ -1,0 +1,76 @@
+{#
+/**
+ * @file
+ * Theme override to display a single Drupal page while offline.
+ *
+ * All available variables are mirrored in page.html.twig.
+ * Some may be blank but they are provided for consistency.
+ *
+ * @see template_preprocess_maintenance_page()
+ */
+#}
+{% set container = theme.settings.fluid_container ? 'container-fluid' : 'container' %}
+{% set navbar_attributes = create_attribute() %}
+
+<header class="header" role="banner">
+    {# Header top #}
+    <div class="header__top clearfix">
+    </div>
+
+    <div class="header__middle clearfix">
+      {% block header_middle %}
+        <div class="{{ container }}">
+          <div class="region-branding">
+            {% if logo %}
+              <a class="logo" href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">
+                <img src="{{ logo }}" alt="{{ 'Home'|t }}" />
+              </a>
+            {% endif %}
+
+            {% if site_name or site_slogan %}
+              <div id="name-and-slogan">
+              {% if site_name %}
+                <a class="name navbar-brand" href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a>
+              {% endif %}
+              {% if site_slogan %}
+                <div id="site-slogan" class="site-slogan">{{ site_slogan }}</div>
+              {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endblock header_middle %}
+    </div>
+
+    {# Navbar #}
+      <div class="header__bottom">
+        {%
+          set navbar_classes = [
+            'navbar',
+            theme.settings.navbar_inverse ? 'navbar-inverse' : 'navbar-default',
+            theme.settings.navbar_position ? 'navbar-' ~ theme.settings.navbar_position|clean_class,
+          ]
+        %}
+        <div{{ navbar_attributes.addClass(navbar_classes) }} id="navbar">
+          <div class="container">
+          </div>
+        </div>
+
+  </header>
+
+{# Main #}
+<main role="main" class="main-container {{ container }}">
+  <div class="row">
+    <section class="col-sm-12">
+      {% if title %}
+        <h1>{{ title }}</h1>
+      {% endif %}
+
+      {# Content #}
+      {% block content %}
+        <a id="main-content"></a>
+        {{ page.content }}
+      {% endblock %}
+    </section>
+  </div>
+</main>

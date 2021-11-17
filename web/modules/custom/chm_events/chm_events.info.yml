@@ -1,0 +1,6 @@
+name: 'CHM Events'
+description: Contains custom code to cleanup dates for the event type
+type: module
+core: 8.x
+package: Bioland
+dependencies:

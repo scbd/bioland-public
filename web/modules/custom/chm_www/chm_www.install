@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Store image url to migrate it to other sites.
+ * See chm_www_taxonomy_term_presave().
+ */
+function chm_www_update_8001() {
+  $vocabularies = [
+    'countries',
+    'aichi_biodiversity_targets',
+    'eu_targets',
+    'sdg',
+  ];
+  foreach ($vocabularies as $vocabulary) {
+    $terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadTree($vocabulary);
+    foreach ($terms as $obj) {
+      $term = Term::load($obj->tid);
+      if ($term->hasField('field_image') && !empty($term->field_image->getValue())) {
+        $term->save();
+      }
+    }
+  }
+}

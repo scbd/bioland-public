@@ -1,0 +1,25 @@
+// Font
+@import 'fonts';
+
+// Prerequisites
+@import 'variables';
+@import 'mixins';
+
+// Libraries
+@import 'bootstrap';
+@import 'slick-theme';
+@import 'font-awesome';
+@import 'focus-outlines';
+
+// Base-theme overrides.
+@import 'overrides';
+
+@import "base/**/*";
+@import "layout/**/*";
+@import "components/*.less";
+@import "components/custom/*";
+@import "state/**/*";
+
+.preload * {
+  transition: none !important;
+}

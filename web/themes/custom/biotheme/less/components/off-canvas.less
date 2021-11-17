@@ -1,0 +1,78 @@
+#drupal-off-canvas {
+  .ui-dialog-off-canvas & {
+    padding: 20px 20px;
+  }
+
+  .glyphicon:extend(.glyphicon all) {}
+
+  .btn {
+    margin-bottom: 10px;
+  }
+
+  .use-ajax .ajax-throbber {
+    margin-left: .5em;
+    color: inherit;
+  }
+
+  button,
+  .btn,
+  .button {
+    .ajax-throbber {
+      margin-left: .5em;
+    }
+  }
+
+  .button:disabled,
+  .button:disabled:active,
+  .button.is-disabled,
+  .button.is-disabled:active {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  .form-actions {
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .text-format-wrapper {
+    // * {
+    //   background: transparent;
+    // }
+    .cke {
+      // background: transparent;
+    }
+  }
+
+
+
+  // Reset the scaling of the modal
+  @media (min-width: @screen-sm-min) {
+    // Automatically set modal's width for larger viewports
+    .modal-dialog {
+      width: auto;
+      margin: auto;
+    }
+    .modal-content {
+      .box-shadow(0 5px 15px rgba(0,0,0,.5));
+    }
+
+    // Modal sizes
+    .modal-sm { width: auto; }
+  }
+
+  @media (min-width: @screen-md-min) {
+    .modal-lg { width: auto; }
+  }
+
+  .layout-selection > li > a {
+    display: flex;
+    padding-top: 0.55em;
+    align-items: center;
+    > img {
+      margin-right: 2rem;
+    }
+  }
+}

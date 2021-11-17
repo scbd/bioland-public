@@ -1,0 +1,75 @@
+langcode: en
+status: true
+dependencies: {  }
+id: common_question_categories
+migration_tags: null
+migration_group: chm_common_taxonomies
+label: Question categories
+source:
+  plugin: chm_url
+  migration_id: common_question_categories
+  data_fetcher_plugin: http
+  data_parser_plugin: chm_json
+  urls: 'https://www.chm-cbd.net/ws-provider/taxonomy/question_categories'
+  item_selector: /
+  ids:
+    tid:
+      type: integer
+    langcode:
+      type: string
+  translations: true
+  fields:
+    -
+      name: tid
+      selector: tid/0/value
+    -
+      name: uuid
+      selector: uuid
+    -
+      name: vid
+      selector: vid/0/target_id
+    -
+      name: parent
+      selector: parent/0/target_id
+    -
+      name: langcode
+      selector: langcode/0/value
+    -
+      name: weight
+      selector: weight/0/value
+    -
+      name: default_langcode
+      selector: default_langcode/0/value
+    -
+      name: content_translation_source
+      selector: content_translation_source/0/value
+    -
+      name: name
+      selector: name
+    -
+      name: description
+      selector: description
+process:
+  vid:
+    plugin: default_value
+    default_value: question_categories
+  name: name
+  description: description
+  changed: timestamp
+  langcode: langcode
+  weight: weight
+  # Only attempt to stub real (non-zero) parents.
+  parent:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration: common_question_categories
+      source:
+        - parent
+destination:
+  plugin: 'entity:taxonomy_term'
+  translations: true
+migration_dependencies: null

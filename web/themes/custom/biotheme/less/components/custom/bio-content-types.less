@@ -1,0 +1,113 @@
+// Homepage statistics block
+.block-statistics-block {
+  .content-types-item {
+    display: block;
+    padding: @nav-link-padding;
+    padding-left: 0;
+    padding-right: 0;
+    > .fa {
+      min-width: 1.3em;
+    }
+  }
+  li + li { border-top: 1px solid @table-border-color; }
+}
+
+.block-contenttypesstatisticsblock--region-sidebar_first:extend(.well),
+.block-contenttypesstatisticsblock--region-sidebar_second:extend(.well) {
+
+  .block-title { margin-top: 0; }
+
+  .content-types-item {
+    font-size: 1.2em;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+
+  li + li { border-top: none; }
+
+}
+
+// By types
+.information-block {
+  .list-unstyled:extend(.nav all, .nav-pills all) {
+    // display: flex;
+    // flex-flow: row wrap;
+    // justify-content: space-between;
+    margin-left: -4.5%;
+    margin-right: -4.5%;
+    &:before, &:after {
+      display: none;
+    }
+
+    > li,
+    > li + li {
+      margin: 9% 4.5% 0;
+      width: 40%;
+      @media (min-width: 480px) {
+        margin: 0 1.4% 2.8%;
+        width: 30%;
+      }
+    }
+
+    @media (min-width: 480px) {
+      margin-left: -1.4%;
+      margin-right: -1.4%;
+      > li,
+      > li + li {
+        margin: 2.8% 1.4% 0;
+        width: 30%;
+      }
+    }
+
+    @media (min-width: 768px) {
+      margin-left: -2.3%;
+      margin-right: -2.3%;
+      > li,
+      > li + li {
+        margin: 4.6% 2.3% 0;
+        width: 20%;
+      }
+    }
+
+    > li {
+      &:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+      > a {
+        .responsive-font-size(1.4, 20px);
+        border-radius: 0;
+        border: 2px solid @nav-link-hover-bg;
+        bottom: 0;
+        color: @nav-link-hover-bg;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+        transition: all .1s;
+        width: 100%;
+
+        &:hover, &:focus, &:active {
+          color: #fff;
+        }
+
+        .fa {
+          display: block;
+          font-size: 3em;
+          margin-bottom: 5px;
+          position: relative;
+          text-align: center;
+        }
+
+      }
+
+    }
+
+  }
+
+}

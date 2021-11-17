@@ -1,0 +1,35 @@
+.bio-news-item {
+  .bio-news-item__right,
+  .bio-news-item__left {
+    @media (min-width: @screen-sm-min) {
+      margin-top: -.5rem;
+    }
+  }
+  .field {
+    margin-top: .5rem;
+    .field {
+      margin-top: 0;
+    }
+  }
+
+  .field--name-body {
+    margin-top: 3rem;
+  }
+  .field--name-field-images {
+    display: flex;
+    flex-flow: row wrap;
+    margin: (2rem - 1rem) -1rem;
+
+    > .field--item {
+      padding: 1rem;
+      flex: 0 0 50%;
+      @media (min-width: @screen-sm-min) { flex: 0 0 33%; }
+      @media (min-width: @screen-md-min) { flex: 0 0 25%; }
+    }
+    // see field--default--field-images--event.html.twig
+    // .col-sm-4 {
+    //   &:not(:first-child) { padding-left: .25rem; }
+    //   &:not(:last-child) { padding-right: .25rem; }
+    // }
+  }
+}

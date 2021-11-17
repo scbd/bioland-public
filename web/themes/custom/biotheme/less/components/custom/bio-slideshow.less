@@ -1,0 +1,149 @@
+//general styles for slider
+.bio-slideshow-item {
+  position: relative;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+}
+.slick-elements-view-mode--slideshow .slick-track {
+  height: 0;
+  overflow: hidden;
+  padding-bottom: (400 / 1200 * 100%);
+}
+@media @grid-desktop {
+  .slick-elements-view-mode--slideshow {
+    .slick-prev, .slick-next {
+      bottom: 25%;
+      top: auto;
+      transform: translate(0, 50%);
+    }
+  }
+}
+.bio-slideshow-item__media {
+  width: 100%;
+
+  .slick-elements-view-mode--slideshow & .blazy.field--type-image .b-error  {
+    height: 0;
+    padding-bottom: 400 / 1200 * 100%;
+    background-image: none;
+  }
+  .blazy.field--type-image .b-lazy {
+    margin: 0;
+  }
+}
+.bio-slideshow-item__caption {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  height: 100%;
+  top: 0;
+
+  &-inner {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.45);
+    border: none;
+    color: #fff;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    min-height: 50%;
+    padding: 1.5em 3.5rem;
+    text-align: center;
+    transition: all 0.27s ease-in-out;
+
+    &:hover { background-color: rgba(0, 0, 0, 0.8); }
+
+    > .field { width: 100%; }
+
+    @media @grid-mobile {
+      width: 100%;
+      height: 100%;
+    }
+    @media @grid-desktop {
+      padding: 1.5em 15%;
+      width: 100%;
+    }
+  }
+
+  .field--name-node-title {
+    @media @grid-mobile {
+      width: 100%;
+    }
+  }
+  .field--name-body {
+    margin-top: .3em;
+  }
+  h2 {
+    margin-top: 0;
+    @media @grid-mobile {
+      line-height: 1.1;
+      &,
+      > a {
+        margin: 0;
+      }
+    }
+  }
+  a {
+    color: white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  @caption-min-font-size: 14px;
+  @caption-max-font-size: @font-size-h2;
+  @caption-min-vw-to-fit: (unit(@caption-min-font-size) / 320 * 100);
+  @max-vw: (floor(@caption-max-font-size * 100 / @caption-min-vw-to-fit) * 1px); // @caption-min-vw-to-fit is minimum vw required to fit content of caption on one line
+
+  @media (max-width: 320px) {
+    h2 {
+      font-size: @caption-min-font-size;
+    }
+  }
+  @media (min-width: 320px) and (max-width: @max-vw) {
+    h2 {
+      font-size: @caption-min-vw-to-fit * 1vw;
+    }
+    .field--name-field-dates {
+      display: none;
+    }
+  }
+  @media (min-width: (@max-vw + 1)) {
+    h2 {
+      font-size: @caption-max-font-size;
+    }
+  }
+
+  .more {
+    &:extend(.btn);
+    &:extend(.btn-sm);
+    .button-variant(#fff, transparent, #fff);
+    border: 1px solid white;
+    box-shadow: none;
+    font-size: .8em;
+    font-weight: bold;
+    margin-top: 1em;
+    text-transform: uppercase;
+    &::after {
+      content: " »";
+    }
+    &:hover,
+    &:focus,
+    &:active,
+    &:active:focus {
+      background-color: @text-color-green;
+      background-image: none;
+      border: 1px solid @text-color-green;
+    }
+  }
+
+  .field--name-body,
+  .more {
+    @media @grid-mobile {
+      display: none;
+    }
+  }
+}

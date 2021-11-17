@@ -1,0 +1,28 @@
+# Dzongkha translation of Pathauto (8.x-1.8)
+# Copyright (c) 2020 by the Dzongkha translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pathauto (8.x-1.8)\n"
+"POT-Creation-Date: 2020-04-29 00:07+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Dzongkha\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "Language"
+msgstr "སྐད་ཡིག།"
+msgid "Enabled"
+msgstr "ལྕོགས་ཅན།"
+msgid "Weight"
+msgstr "ལྗིད་ཚད།"
+msgid "Settings"
+msgstr "སྒྲིག་སྟངས་ཚུ་"
+msgid "Update"
+msgstr "དུས་མཐུན།"
+msgid "Forum"
+msgstr "གྲོས་གནས།"
+msgid "Ampersand"
+msgstr "དང་རྟགས།"

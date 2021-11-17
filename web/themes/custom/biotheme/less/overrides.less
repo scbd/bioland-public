@@ -1,0 +1,94 @@
+html {
+  font-size: @rem-system-base / 16 * 100%;
+  // @media @grid-mobile {
+  //   font-size: @rem-system-base--mobile / 16 * 100%;
+  // }
+}
+body {
+  font-size: unit(@font-size-base) / @rem-system-base * 100%;
+}
+
+ol, ul {
+  padding-left: 1.5em;
+  .popover &:last-child {
+    margin-bottom: 0;
+  }
+}
+// .navbar-nav {
+//   margin: calc(@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
+// }
+// Page header.
+.page-header:first-child {
+  margin-top: 0;
+}
+.page-header {
+  border: none;
+}
+
+// Footer.
+.footer {
+  margin-top: 45px;
+  // padding-top: 15px;
+  // padding-bottom: 36px;
+  @media @grid-mobile {
+    .sidemenu-toggle-wrapper + & {
+      margin-top: 0;
+    }
+  }
+}
+
+// Paragraphs.
+p:last-child,
+.form-group:last-child,
+.panel:last-child {
+  margin-bottom: 0;
+}
+
+// Help region.
+.region-help {
+  > .glyphicon {
+    font-size: @font-size-large;
+    float: left;
+    margin: -0.05em 0.5em 0 0;
+  }
+  .block {
+    overflow: hidden;
+  }
+}
+
+
+.help-block, .control-group .help-inline {
+  color: @gray-light;
+  font-size: 12px;
+  margin: 5px 0 10px;
+  padding: 0;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.container-full {
+  // width: 100%;
+}
+
+.close {
+  text-shadow: none;
+}
+
+.field--type-text-long {
+  ol, ul {
+    margin-left: 1em;
+  }
+}
+
+.contextual-region .contextual .contextual-links {
+  right: 0;
+}
+.contextual {
+  top: -6px;
+  right: -6px;
+  .trigger {
+    top: 0;
+    right: 0;
+  }
+}

@@ -1,0 +1,6 @@
+services:
+  # This is an arbitrary name, but should be made description
+  chm_common.route_subscriber:
+    class: 'Drupal\chm_common\Routing\CHMCommonRouteSubscriber'
+    tags:
+      - { name: event_subscriber }

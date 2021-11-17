@@ -1,0 +1,99 @@
+bio_news:
+  label: News
+  category: CHM
+  type: partial
+  template: templates/layouts/bio-news
+  regions:
+    right:
+      label: Right
+    left:
+      label: Left
+
+bio_teaser_3_9:
+  label: Teaser 3-9
+  category: CHM
+  type: partial
+  template: templates/layouts/bio-teaser-3-9
+  regions:
+    right:
+      label: Content
+    left:
+      label: Media
+
+bio_teaser_9_3:
+  label: Teaser 9-3
+  category: CHM
+  type: partial
+  template: templates/layouts/bio-teaser-9-3
+  regions:
+    right:
+      label: Media
+    left:
+      label: Content
+
+bio_teaser_homepage:
+  label: Teaser homepage
+  category: CHM
+  type: partial
+  template: templates/layouts/bio-teaser-homepage
+  regions:
+    right:
+      label: Media
+    left:
+      label: Content
+
+bio_homepage:
+  label: Bioland Homepage
+  category: CHM
+  type: partial
+  template: templates/layouts/homepage
+  regions:
+    slideshow:
+      label: Slideshow
+    right:
+      label: Right 1
+    left:
+      label: Left 1
+
+bio_slideshow_item:
+  label: Slideshow item
+  category: CHM
+  type: partial
+  template: templates/layouts/bio-slideshow-item
+  regions:
+    media:
+      label: Media
+    caption:
+      label: Captions
+
+layout_twocol_67_33:
+  label: 'Two column 67/33'
+  path: layouts/twocol_67_33
+  template: layout--twocol-67-33
+  library: biotheme/twocol_67_33
+  category: 'Columns: 2'
+  default_region: first
+  icon: twocol_67_33.png
+  icon_map:
+    - [first, second]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+
+layout_twocol_33_67:
+  label: 'Two column 33/67'
+  path: layouts/twocol_33_67
+  template: layout--twocol-33-67
+  library: biotheme/twocol_33_67
+  category: 'Columns: 2'
+  default_region: first
+  icon: twocol_33_67.png
+  icon_map:
+    - [first, second]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second

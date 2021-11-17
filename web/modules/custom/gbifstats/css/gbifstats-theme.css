@@ -1,0 +1,32 @@
+#national_info {
+    padding: 1% 1%;
+}
+
+.stats-rond {
+    text-align: center;
+    padding: 5% 5%;
+}
+
+p.stats_texte{
+    font-weight: 300;
+    font-size: 100%;
+}
+
+.stats_chiffre{
+    font-weight: 700;
+    font-size: 150%;
+}
+
+.stats-dataset.col-xs-12.col-sm-6 {
+    padding: 2% 2%;
+}
+
+li.stats_dataset_texte:before {
+    color: #CB3B59;
+    margin-right: 0.5%;
+}
+
+#gbifstatsmap{
+    width: 900px;
+    height: 580px;
+}

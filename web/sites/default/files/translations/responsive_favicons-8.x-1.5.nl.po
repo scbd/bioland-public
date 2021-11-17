@@ -1,0 +1,22 @@
+# Dutch translation of Responsive Favicons (8.x-1.5)
+# Copyright (c) 2019 by the Dutch translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Responsive Favicons (8.x-1.5)\n"
+"POT-Creation-Date: 2019-05-01 03:46+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "User interface"
+msgstr "Gebruikersinterface"
+msgid "About"
+msgstr "Over"
+msgid "Provided archive contains no files."
+msgstr "Aangeleverd archief bevat geen bestanden."
+msgid "Cannot extract %file, not a valid archive."
+msgstr "Kan bestand %file niet uitpakken, is geen geldig archief."

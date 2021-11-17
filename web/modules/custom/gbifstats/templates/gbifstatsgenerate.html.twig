@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Default theme implementation to generate GBIF Stats.
+ *
+ * Available variables (see gbifstats_theme in gbifstats.module):
+ *   - country_code
+ *
+ * @see template_preprocess_gbifstats()
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="stats">
+  {% if message_erreur is not sameas("NoError") %}
+    <p>La page a rencontrée une erreur : </p>
+    <p></p>
+    <p>{{ message_erreur }}</p>
+  {% else %}
+    <p>Génération complète</p>
+    <p></p>
+    <p>Pour voir le résultats, allez sur la page <a href="../../gbifstats/display/{{ country_code }}" target="_blank">/gbifstats/display/{{ country_code }}</a></p>
+  {% endif %}
+</div>

@@ -1,0 +1,17 @@
+chm_common.own_moderated_content:
+  title: 'Own moderated content'
+  route_name: view.own_moderated_content.moderated_content
+  parent_id: system.admin_content
+  weight: 50
+
+chm_common.all_moderated_content:
+  title: 'All moderated content'
+  route_name: view.all_moderated_content.moderated_content
+  parent_id: system.admin_content
+  weight: 60
+
+chm_common.archived_content:
+  title: 'Archived content'
+  route_name: view.archived_moderated_content.archived_content
+  parent_id: system.admin_content
+  weight: 60

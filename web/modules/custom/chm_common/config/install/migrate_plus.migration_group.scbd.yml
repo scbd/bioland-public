@@ -1,0 +1,17 @@
+uuid: 9d6fc600-a1c8-46a7-8334-ba4923d32442
+langcode: en
+status: true
+id: scbd
+label: Migration - CBD
+description: 'Importing content from CBD API'
+source_type: null
+module: null
+dependencies:
+  enforced:
+    module:
+      - chm_common
+shared_configuration:
+  dependencies:
+    enforced:
+      module:
+        - chm_common

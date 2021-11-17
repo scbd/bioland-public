@@ -1,0 +1,16 @@
+{% extends "page.html.twig" %}
+{%
+set classesMain = [
+  'main-container', 
+  'js-quickedit-main-content'
+]
+%}
+{% block main %}
+  <div role="main" {{ attributes.addClass(classesMain) }}>
+    <div class="container-fluid">
+      {% block main_container %}
+        {{ parent() }}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,121 @@
+langcode: en
+status: true
+dependencies: {  }
+id: common_countries
+migration_tags: null
+migration_group: chm_common_taxonomies
+label: Countries
+source:
+  plugin: chm_url
+  migration_id: common_countries
+  data_fetcher_plugin: http
+  data_parser_plugin: chm_json
+  urls: 'https://www.chm-cbd.net/ws-provider/taxonomy/countries'
+  item_selector: /
+  ids:
+    tid:
+      type: integer
+    langcode:
+      type: string
+  translations: true
+  fields:
+    -
+      name: tid
+      selector: tid/0/value
+    -
+      name: uuid
+      selector: uuid
+    -
+      name: vid
+      selector: vid/0/target_id
+    -
+      name: parent
+      selector: parent/0/target_id
+    -
+      name: langcode
+      selector: langcode/0/value
+    -
+      name: weight
+      selector: weight/0/value
+    -
+      name: default_langcode
+      selector: default_langcode/0/value
+    -
+      name: content_translation_source
+      selector: content_translation_source/0/value
+    -
+      name: name
+      selector: name
+    -
+      name: description
+      selector: description
+    -
+      name: field_country_cbd_guid
+      selector: field_country_cbd_guid
+    -
+      name: field_cbd_id
+      selector: field_cbd_id
+    -
+      name: field_iso_code
+      selector: field_iso_code
+    -
+      name: field_iso3l_code
+      selector: field_iso3l_code
+    -
+      name: field_gef_id
+      selector: field_gef_id
+    -
+      name: field_is_un_country
+      selector: field_is_un_country
+    -
+      name: field_official_name
+      selector: field_official_name
+    -
+      name: field_protected_planet_id
+      selector: field_protected_planet_id
+    -
+      name: field_un_number
+      selector: field_un_number
+    -
+      name: field_un_official_short_name
+      selector: field_un_official_short_name
+    -
+      name: field_image_url
+      selector: field_image_url/0/uri
+process:
+  vid:
+    plugin: default_value
+    default_value: countries
+  name: name
+  description: description
+  changed: timestamp
+  langcode: langcode
+  weight: weight
+  # Only attempt to stub real (non-zero) parents.
+  parent:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration: common_countries
+      source:
+        - parent
+  # Custom fields
+  field_country_cbd_guid: field_country_cbd_guid
+  field_cbd_id: field_cbd_id
+  field_iso_code: field_iso_code
+  field_iso3l_code: field_iso3l_code
+  field_gef_id: field_gef_id
+  field_is_un_country: field_is_un_country
+  field_official_name: field_official_name
+  field_protected_planet_id: field_protected_planet_id
+  field_un_number: field_un_number
+  field_un_official_short_name: field_un_official_short_name
+  field_image_url: field_image_url
+  field_www_id: tid
+destination:
+  plugin: 'entity:taxonomy_term'
+  translations: true
+migration_dependencies: null

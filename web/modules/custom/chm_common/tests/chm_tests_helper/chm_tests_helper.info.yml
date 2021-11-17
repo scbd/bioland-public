@@ -1,0 +1,32 @@
+name: CHM tests helper
+description: 'Create the data structures for automated tests.'
+type: module
+core: 8.x
+package: Bioland
+dependencies:
+  - address
+  - blazy
+  - chm_common
+  - content_translation
+  - datetime
+  - ds
+  - field
+  - file
+  - flexible_daterange
+  - geolocation
+  - image
+  - image_widget_crop
+  - language
+  - link
+  - panelizer
+  - path
+  - responsive_image
+  - rest
+  - serialization
+  - slick
+  - smart_trim
+  - taxonomy
+  - text
+  - user
+  - video_embed_field
+  - views

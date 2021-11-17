@@ -1,0 +1,25 @@
+.biolanddashboard {
+  &[data-menu-level="0"] > li > a {
+    padding-left: (1em + 1em);
+  }
+  &[data-menu-level="1"] > li > a {
+    padding-left: (2em + 1em);
+  }
+  &[data-menu-level="2"] > li > a {
+    padding-left: (3em + 1em);
+  }
+  &[data-menu-level="3"] > li > a {
+    padding-left: (4em + 1em);
+  }
+  &[data-menu-level="4"] > li > a {
+    padding-left: (5em + 1em);
+  }
+  a.fa {
+    position: relative;
+    &:before {
+      margin-left: -1em;
+      margin-right: .5em;
+    }
+  }
+
+}

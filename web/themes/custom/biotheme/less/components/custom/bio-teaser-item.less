@@ -1,0 +1,175 @@
+@bio-teaser-media-min-width: 120px; // must be in pixels
+.bio-teaser-item,
+.bio-teaser-item--homepage {
+  padding-bottom: 1.5em;
+  padding-top: 1.5em;
+
+  .field--name-bundle-fieldnode {
+    color: @text-gray;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .field--name-node-title {
+    > * {
+      font-size: 1.2em;
+      font-weight: bold;
+      line-height: 1.3;
+      margin: .3em 0;
+    }
+    &, a {
+      color: @brand-primary;
+    }
+  }
+
+  .views-row + .views-row > &,
+  .views-row + .views-row > .views-field-rendered-item > .field-content > & {
+    border-top: 1px solid #dddddd;
+  }
+
+  .field--name-body,
+  .field--name-node-link {
+    margin-top: .4em;
+    clear: left;
+  }
+
+  .field--name-node-link {
+    color: @brand-secondary;
+    display: block;
+    font-size: .8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    &:after {
+      content: ' »';
+    }
+  }
+
+  // Bug #129 only media item in 3-9 layout is hidden if empty
+  .view & .bio-teaser-item__media:empty {
+    flex: 0;
+    min-width: 0;
+  }
+  .view &.bio-teaser-item--9-3 .bio-teaser-item__media:empty {
+    + .bio-teaser-item__content {
+      right: 0;
+      width: 100%;
+    }
+  }
+}
+
+@teaser-wrap-mq: ((@bio-teaser-media-min-width + 7.5px) * 4);
+
+@media (max-width: @screen-xs-max) {
+  .bio-teaser-item            .bio-teaser-item__media,
+  .bio-teaser-item--homepage  .bio-teaser-item__media { width: 30%; }
+  .bio-teaser-item--3-9       .bio-teaser-item__media { float: left; }
+  .bio-teaser-item--9-3       .bio-teaser-item__media {
+    float: right;
+    @media (min-width: @teaser-wrap-mq) {
+      order: 1;
+    }
+  }
+}
+
+// Teasers in views
+.view .bio-teaser-item:extend(.well) {
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  @media (min-width: (480px + @grid-gutter-width)) {
+    height: 200 / @font-size-base * 1em;
+  }
+  > .row {
+    display: flex;
+    margin: 0;
+    flex-flow: row wrap;
+    height: 100%;
+    @media (min-width: (480px + @grid-gutter-width)) {
+      flex-wrap: nowrap;
+    }
+  }
+  .bio-teaser-item__content {
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 75%; // ( 9 / @grid-columns * 100% );
+    overflow: hidden;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    @media (min-width: (480px + @grid-gutter-width)) {
+      height: 10em * @line-height-base;
+    }
+  }
+  .bio-teaser-item__media {
+    flex: 1 0 25%; // ( 3 / @grid-columns * 100% );
+    min-width: @bio-teaser-media-min-width;
+    padding: 0;
+    width: auto;
+  }
+  .field--type-video-embed-field,
+  .field--name-field-image,
+  .field--name-field-images {
+    &, & * {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // width: 100%;
+    }
+    img {
+      margin: 0 auto;
+      object-fit: cover;
+      &.image-style--teaser_thumbnail {
+        object-fit: fill;
+        height: auto;
+
+      }
+      @media (max-width: (480px + @grid-gutter-width - 1px)) {
+        max-height: 13em;
+        &.b-error {
+          display: none;
+        }
+        &.image-style--teaser_thumbnail {
+          margin: 0 auto;
+          padding: 1em;
+        }
+      }
+    }
+  }
+  .field--name-body {
+    overflow: hidden;
+    & + .field--name-node-link {
+      box-shadow: 0 0em 3em 1em @well-bg;
+    }
+    @media (max-width: (480px + @grid-gutter-width - 1px)) {
+      height: @line-height-base * 3em;
+    }
+
+  }
+  .field--name-node-link {
+    background: @well-bg;
+    margin-top: auto;
+    padding-top: .5em;
+  }
+}
+
+.view-organizations-listing .bio-teaser-item .field--name-field-image {
+  background-color: #fff;
+}
+
+.view-organizations-listing .bio-teaser-item .field--name-field-image img {
+  background-color: #fff;
+  object-fit: contain;
+  &.b-lazy {
+    transform: scale(0.95);
+  }
+}
+
+.bio-teaser-item--homepage {
+  .col-sm-9 > .field {
+    margin-right: .3em;
+  }
+  .b-lazy.b-error {
+    width: 100%;
+  }
+}

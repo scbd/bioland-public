@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: blazy_placeholder
+label: 'Blazy placeholder'
+effects:
+  d7ab225c-a21f-4243-8bf1-bd7700ddba5f:
+    uuid: d7ab225c-a21f-4243-8bf1-bd7700ddba5f
+    id: image_scale
+    weight: 2
+    data:
+      width: 40
+      height: null
+      upscale: false

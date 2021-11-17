@@ -1,0 +1,339 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\chm_common\CHMAccessHandler;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+
+function chm_common_theme($existing, $type, $theme, $path) {
+  return [
+    'content_types_block' => [
+      'variables' => [
+        'data' => NULL,
+        'class' => NULL,
+      ],
+    ],
+    'chm_country_flag' => [
+      'variables' => [
+        'url' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+      ],
+    ],
+    'spacer_block' => [
+      'variables' => [
+        'attributes' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function chm_common_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'search') {
+    // Remove the highlight from urls.
+    foreach ($view->result as &$resultRow) {
+      if (!empty($resultRow->rendered_item)) {
+        $values = &$resultRow->rendered_item;
+        foreach ($values as &$value) {
+          /** @var \Drupal\search_api\Plugin\search_api\data_type\value\TextValue $value */
+          $text = $value->getText();
+          while (preg_match('/(href\=\".*)\<strong\>(.+)\<\/strong\>(.*\")/', $text, $matches)) {
+            $text = str_replace($matches[0], $matches[1] . $matches[2] . $matches[3], $text);
+          }
+          $value->setText($text);
+        }
+      }
+    }
+  }
+  /** @var \Drupal\views\Plugin\views\display\DisplayPluginBase $display_handler */
+  $view_display_handler = $view->display_handler;
+  // Add a CSS class representing the view mode used for the elements being displayed in a Slick slideshow.
+  if(   !empty($view_display_handler->getPlugin('style'))
+    &&  $view_display_handler->getPlugin('style')->getProvider() == 'slick_views'
+    &&  isset($view->rowPlugin->options['view_mode']))
+    {
+      $elements_view_mode = $view->rowPlugin->options['view_mode'];
+      $view_classes = $view_display_handler->getOption('css_class');
+      $new_view_classes = explode(' ', !empty($view_classes) ? $view_classes : '');
+      $new_view_classes[] = 'slick-elements-view-mode--' . $elements_view_mode;
+      $view_display_handler->setOption('css_class', implode(' ', $new_view_classes));
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function chm_common_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $account = \Drupal::currentUser();
+  // Make menu items expanded by default.
+  if ($form_id == 'menu_link_content_menu_link_content_form') {
+    $build_info = $form_state->getBuildInfo();
+    /** @var Drupal\menu_link_content\Entity\MenuLinkContent $menu_content */
+    $menu_content = $build_info['callback_object']->getEntity();
+    // On menu item creation, set expanded = TRUE on the form.
+    if (!$menu_content->id()) {
+      $form['expanded']['widget']['value']['#default_value'] = 1;
+    }
+  }
+  elseif (preg_match('/node_.*_form/', $form_id)) {
+    $form['promote']['#access'] = \Drupal::currentUser()->hasPermission('bioland promote content');
+    $form['revision_information']['#access'] = \Drupal::currentUser()->hasPermission('bioland manage revision information');
+    if (preg_match('/node_project.*form/', $form_id)) {
+      $form['field_date']['widget'][0]['end_value']['#date_time_element'] = 'none';
+      $form['field_date']['widget'][0]['value']['#date_time_element'] = 'none';
+      $form['field_date']['widget'][0]['hide_time']['#type'] = 'hidden';
+    }
+    // Fix a problem with chosen on admin theme.
+    $form['#attached']['library'][] = 'chm_common/chm_common.chosen';
+    $form['moderation_state']['info']['#weight'] = -50;
+    $form['moderation_state']['info']['title'] = [
+      '#markup' => '<h2>' . \Drupal::translation()->translate('Content publishing') . '</h2>',
+    ];
+    // Handle Contributor customizations
+    if (!$account->hasPermission('use editorial transition publish')) {
+      $form['moderation_state']['info']['draft'] = [
+        '#markup' => \Drupal::translation()->translate('You can only <b>Draft</b> content. Draft content will be published by a <b>Content Manager</b> or <b>Site Manager</b>.')
+      ];
+      if (isset($form['moderation_state']['widget'][0]['state']['#options']['draft']) && count($form['moderation_state']['widget'][0]['state']['#options']) == 1) {
+        $form['moderation_state']['widget'][0]['state']['#access'] = FALSE;
+      }
+    }
+
+    $form['#attached']['library'][] ='chm_common/chm_common.content_edit_forms';
+  }
+  elseif ($form_id == 'system_performance_settings') {
+    \Drupal\chm_common\SecurityHelper::showRestrictedFunctionalityWarning();
+    $form['bandwidth_optimization']['#access'] = \Drupal\chm_common\SecurityHelper::userIsAdministrator();
+    $form['caching']['#access'] = \Drupal\chm_common\SecurityHelper::userIsAdministrator();
+  }
+  elseif ($form_id == 'user_register_form' || $form_id == 'user_form') {
+    \Drupal\chm_common\SecurityHelper::userFieldRolesAccess($form);
+    $form['account']['mail']['#required'] = TRUE;
+    // Hide the username field and set it on chm_common_entity_insert().
+    $form['account']['name']['#access'] = FALSE;
+    $form['account']['name']['#required'] = FALSE;
+    $form['account']['name']['#default_value'] = '.-\'_';
+  }
+  elseif ($form_id == 'system_cron_settings') {
+    \Drupal\chm_common\SecurityHelper::showRestrictedFunctionalityWarning();
+    $form['cron']['#access'] = \Drupal\chm_common\SecurityHelper::userIsAdministrator();
+  }
+  elseif ($form_id == 'shield_admin_settings') {
+    \Drupal\chm_common\SecurityHelper::showRestrictedFunctionalityWarning();
+    $form['general']['#access'] = \Drupal\chm_common\SecurityHelper::userIsAdministrator();
+  }
+  elseif ($form_id == 'user_login_form') {
+    $form['name']['#title'] = new \Drupal\Core\StringTranslation\TranslatableMarkup('Email address');
+  }
+  elseif ($form_id == 'user_pass') {
+    $form['name']['#title'] = new \Drupal\Core\StringTranslation\TranslatableMarkup('Email address');
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function chm_common_entity_type_alter(array &$entity_types) {
+  $entity_types['date_format']->setHandlerClass('access', CHMAccessHandler::class);
+}
+
+/*
+ * Implements hook_system_breadcrumb_alter().
+ 
+function chm_common_system_breadcrumb_alter(\Drupal\Core\Breadcrumb\Breadcrumb &$breadcrumb, \Drupal\Core\Routing\RouteMatchInterface $route_match, array $context) {
+  if ($theme = \Drupal::service('theme.manager')->getActiveTheme()) {
+    if ('seven' == $theme->getName()) {
+      $links = $breadcrumb->getLinks();
+      $home = $links[0];
+      // Change 'Home' to 'My account' and point it to user profile
+      $home->setText(t('My account'));
+      $home->setUrl(\Drupal\Core\Url::fromRoute('user.page'));
+      $breadcrumb = new \Drupal\Core\Breadcrumb\Breadcrumb();
+      $breadcrumb->setLinks($links);
+    }
+  }
+}
+*/
+/**
+ * Implements hook_preprocess_page().
+ */
+function chm_common_preprocess_page(&$variables) {
+  // Show documentation links based on the admin page the user is on.
+  $base='https://www.chm-cbd.net/support/bioland-tool/manual/';
+  $wiki_links = [
+    '/admin/content' => 'content-management',
+    '/node/add' =>      'content-management/create-edit-content',
+    '/admin/structure/block' => 'website-structure/block-management',
+    '/admin/structure/entityqueue/slideshow/slideshow' => 'content-management/home-page#Slideshow',
+    '/admin/config/regional/translate' => 'content-management/translate-content',
+
+    //    '/admin/config/regional/config-translation' => 'https://support.chm-cbd.net/projects/bioland/wiki/Translations',
+
+    '/admin/structure' => 'website-structure',
+    '/admin/structure/menu/manage/main' => 'website-structure/menus',
+    '/admin/structure/menu/manage/quick-links' => 'website-structure/menus',
+    '/admin/structure/menu/manage/footer' => 'website-structure/menus',
+    '/admin/structure/menu/manage/bioland---footer---bioland-' => 'website-structure/menus',
+    '/admin/structure/menu' => 'website-structure/menus',
+    '/admin/structure/menu/manage/bioland---footer---social-m' => 'website-structure/menus',
+
+    '/admin/config/search/path' =>     'website-structure/configure-urls-and-redirects',
+    '/admin/config/search/redirect' => 'website-structure/configure-urls-and-redirects',
+
+    '/admin/structure/webform' => 'content-management/web-forms',
+    '/admin/config/bioland/statistics-settings' => 'website-structure/block-management#Content-statistics-block',
+    '/admin/structure/webform/manage/contact/results/submissions' => 'content-management/web-forms',
+
+//    '/admin/config' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+//    '/admin/config/system/site-information' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+//    '/admin/config/development/performance' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+//    '/admin/config/regional/date-time' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+
+    '/admin/config/system/shield' => 'website-configuration/limit-access',
+
+//    '/admin/config/regional/settings' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+//    '/admin/config/system/cron' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+//    '/admin/config/development/maintenance' => 'https://support.chm-cbd.net/projects/bioland/wiki/Website_configuration',
+    '/admin/people' => 'users-management',
+    '/admin/people/create' => 'users-management',
+  ];
+  $path = \Drupal::service('path.current')->getPath();
+  if (!empty($wiki_links[$path])) {
+    drupal_set_message(t('Before making any changes, make sure to read the Bioland documentation available <a href="@here" target="_blank">here</a>.', [
+      '@here' => $base . $wiki_links[$path],
+    ]));
+  }
+
+  if ($path == '/admin/structure/block') {
+    // Remove the themes tabs on '/admin/structure/block'.
+    $variables['page']['pre_content']['#access'] = \Drupal\chm_common\SecurityHelper::userIsAdministrator();
+    \Drupal\chm_common\SecurityHelper::showRestrictedFunctionalityWarning();
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function chm_common_entity_insert(EntityInterface $entity) {
+  if ($entity->bundle() == 'user') {
+    /** @var \Drupal\user\Entity\User $entity */
+    $entity->setUsername($entity->getEmail());
+    $entity->save();
+  }
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function chm_common_entity_presave(EntityInterface $entity) {
+  if ($entity->bundle() == 'user') {
+    /** @var \Drupal\user\Entity\User $entity */
+    $entity->setUsername($entity->getEmail());
+  }
+}
+
+/**
+ * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
+ *
+ * Use this hook to filter the content displayed in the layout builder content selection column.
+ */
+/*
+function chm_common_plugin_filter_block__layout_builder_alter(array &$definitions, array $extra) {
+  // A whitelist of patterns to be displayed by the layout builder content selection
+  $whitelist_patterns = [
+    // Bioland:
+    'statistics_block',
+    'search_form_block',
+    'spacer_block',
+
+    //
+    'block_content',
+    '^views_block:.*',
+    //
+    'language_block:language_interface',
+    'inline_block:basic',
+
+    // Development
+    'devel_execute_php',
+    'devel_switch_user',
+
+    // Some other available patterns, currently disabled.
+    //'entity_view',
+    //'entity_field',
+    'entity_field:node:body',
+    //'facet_block',
+    //'help_block',
+    //'field_block',
+    //'extra_field_block',
+    //'menu_block',
+    //'node_syndicate_block',
+    //'system_branding_block',
+    //'system_messages_block',
+    //'system_powered_by_block',
+    //'system_breadcrumb_block',
+    //'system_menu_block:account',
+    //'system_main_block',
+    //'user_login_block',
+    //'webform_submission_limit_block',
+    //'webform_block',
+    //'local_actions_block',
+    //'local_tasks_block',
+    // 'page_title_block',
+  ];
+
+  foreach($definitions as $key => $value) {
+    if (!preg_match('/^(' . implode('|', $whitelist_patterns) . ')/i', $key)) {
+      unset($definitions[$key]);
+    }
+  }
+}
+*/
+
+/**
+ * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
+ *
+ * Use this hook to filter the layouts displayed in the layout builder content selection column.
+ */
+/*
+function chm_common_plugin_filter_layout__layout_builder_alter(array &$definitions, array $extra) {
+  $blacklist_patterns = [
+    'bio_',
+    'ds_'
+  ];
+  foreach($definitions as $key => $value) {
+    if (preg_match('/^(' . implode('|', $blacklist_patterns) . ')/i', $key)) {
+      unset($definitions[$key]);
+    }
+  }
+}
+*/
+
+/**
+ * Based on https://api.drupal.org/api/drupal/core%21modules%21toolbar%21toolbar.api.php/function/hook_toolbar/8.8.x
+ * Implements hook_toolbar().
+ */
+function chm_common_toolbar() {
+        $items = [];
+
+        //Add a link to the Site Management page to the global admin toolbar
+        $items['chm_common.management_link'] = [
+                '#type' => 'toolbar_item',
+                'tab' => [
+                        '#type' => 'link',
+                        '#title' => t('Bioland Management'),
+                        '#url' => Url::fromUri('entity:node/395'), // Bioland Management landing page with custom layout for the menu
+                        '#options' => [
+                                'attributes' => [
+                                        'class' => ['toolbar-icon', 'toolbar-icon-help', 'toolbar-item'],
+                                ],
+                        ],
+                ],
+                '#weight' => 900,
+        ];
+
+        return $items;
+}

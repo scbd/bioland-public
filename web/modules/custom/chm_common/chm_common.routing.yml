@@ -1,0 +1,23 @@
+chm_common.dashboard:
+  path: /admin/bioland
+  defaults:
+    _controller: '\Drupal\chm_common\Controller\DashboardController::page'
+    _title: 'Content management dashboard'
+  requirements:
+    _permission: 'view the administration theme'
+
+chm_common.admin_config_bioland:
+  path: '/admin/config/bioland'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Bioland configuration'
+  requirements:
+    _permission: 'access administration pages'
+
+chm_common.statistics_settings:
+  path: '/admin/config/bioland/statistics-settings'
+  defaults:
+    _form: '\Drupal\chm_common\Form\StatisticsBlockSettingsForm'
+    _title: 'Statistics block settings'
+  requirements:
+    _permission: 'edit statistics block'

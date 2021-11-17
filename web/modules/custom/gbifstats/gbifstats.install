@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for GBIF Stats module.
+ */
+
+use Drupal\user\RoleInterface;
+
+/**
+ * Implements hook_install().
+ */
+function gbifstats_install() {
+  user_role_change_permissions(RoleInterface::ANONYMOUS_ID, array(
+    'configure GBIF Stats' => TRUE,
+    'view GBIF Stats' => TRUE
+  ));
+}

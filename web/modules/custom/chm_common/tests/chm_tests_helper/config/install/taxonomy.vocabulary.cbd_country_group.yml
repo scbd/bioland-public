@@ -1,0 +1,9 @@
+uuid: da318377-1a75-4957-9278-436919523fb9
+langcode: en
+status: true
+dependencies: {  }
+name: 'CBD country group'
+vid: cbd_country_group
+description: ''
+hierarchy: 0
+weight: 0

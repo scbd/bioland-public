@@ -1,0 +1,18 @@
+{%
+set classes = [
+'bio-news-item',
+]
+%}
+
+{% if content %}
+<div{{ attributes.addClass(classes) }}>
+  <div class="row">
+    <div class="bio-news-item__left col-sm-8">
+      {{ content.left }}
+    </div>
+    <div class="bio-news-item__right col-sm-4">
+      {{ content.right }}
+    </div>
+  </div>
+</div>
+{% endif %}

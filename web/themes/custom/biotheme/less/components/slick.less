@@ -1,0 +1,44 @@
+.slick {
+  position: relative;
+  margin-bottom: 4rem;
+}
+//slide arrows
+.slick__arrow {
+  position: static;
+}
+.slick-arrow {
+  backface-visibility: hidden;
+  height: 3.5rem;
+  width: 3.5rem;
+}
+.slick-prev { left: .1rem; }
+.slick-next { right: .1rem; }
+
+.slick-arrow::before {
+  color: #bbb;
+  font-size: 3.5rem;
+  transition: all 0.27s ease-in-out;
+}
+
+.slick-arrow:hover::before {
+  color: lighten(#bbb,5%);
+}
+
+// Slick dots
+.slick-dots {
+  .slick-elements-view-mode--slideshow & {
+    bottom: -4rem;
+  }
+}
+.slick-dots li button:before {
+  font-size: 0.75rem;
+}
+
+//keeps slides from bouncing back from LTR - float: left
+[dir='rtl'] .slick-slide {
+  float: right !important;
+}
+
+.slick__slider:not(.slick-initialized) > .slick__slide:not(:first-child) {
+  display: none;
+}

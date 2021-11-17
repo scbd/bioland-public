@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_is_un_country
+    - taxonomy.vocabulary.countries
+id: taxonomy_term.countries.field_is_un_country
+field_name: field_is_un_country
+entity_type: taxonomy_term
+bundle: countries
+label: 'Is UN country'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

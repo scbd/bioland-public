@@ -1,0 +1,22 @@
+# Dzongkha translation of Shield (8.x-1.4)
+# Copyright (c) 2020 by the Dzongkha translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Shield (8.x-1.4)\n"
+"POT-Creation-Date: 2020-05-16 11:02+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Dzongkha\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "Username"
+msgstr "ལག་ལེན་པའི་མིང་།"
+msgid "Administration"
+msgstr "བདག་སྐྱོང་།"
+msgid "Password"
+msgstr "ཆོག་ཡིག་"
+msgid "User"
+msgstr "ལག་ལེན་པ།"

@@ -1,0 +1,57 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function gbifstats_help($route_name, RouteMatchInterface $route_match) {
+    switch ($route_name) {
+        case 'help.page.gbifstats':
+            return t('
+        <h2>GBIF Stats pour Drupal.</h2>
+        <h3>Instructions</h3>
+        <p>Allez à l\'adresse  <strong>/gbifstats/generate/{country_code}</strong> où {country_code} est le code en deux lettre du pays dont vous voulez les informations.</p>
+        <p>La page générera les informations directement depuis l\'API GBIF.</p>
+        <p>Puis visitez <strong>/gbifstats/display/{country_code}</strong> pour voir les informations.</p>
+        <p>Il existe 3 types de permissions dans le module GBIF Stats : <em>configure GBIF Stats</em> (pour configurer le module), <em>generate GBIF Stats</em> (pour la generation de données) et <em>view GBIF Stats</em> (pour l\'affichage des stats).</p>
+      ');
+    }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function gbifstats_theme($existing, $type, $theme, $path) {
+    $variables = array(
+        'gbifstatsgenerate' => array(
+            'variables' => array(
+                'message_erreur' => NULL,
+                'country_code' => NULL,
+            ),
+            'template' => 'gbifstatsgenerate',
+        ),
+        'gbifstatsdisplay' => array(
+            'variables' => array(
+                'message_erreur' => NULL,
+                'country_code' => NULL,
+                'country_param' => NULL,
+                'node_name' => NULL,
+                'website' => NULL,
+                'head_delegation' => NULL,
+                'node_manager' => NULL,
+                'link_page_GBIF' => NULL,
+                'last_datasets' => NULL,
+                'nb_publishers' => NULL,
+                'nb_occurrences' => NULL,
+                'categories' => NULL,
+                'display_map' => NULL,
+            ),
+            'template' => 'gbifstatsdisplay',
+        ),
+    );
+    return $variables;
+}
+
+

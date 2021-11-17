@@ -1,0 +1,142 @@
+uuid: d2797cc0-1918-47b0-a793-95d1254d5ddd
+langcode: en
+status: true
+id: cbd_documents
+migration_tags:
+  - scbd
+  - remote
+migration_group: scbd
+label: 'Migrate documents from SCBD API specific to this instance'
+source:
+  constants:
+    USER_CONTENT_MANAGER: 35
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: scbd_index_2013_paginated
+  urls: 'https://chm.cbd.int/api/v2013/index/select'
+  item_selector: /
+  configuration:
+    paginator_parameter: start
+    pagesize_parameter: rows
+    pagesize_value: 10
+  fields:
+    -
+      name: identifier_s
+      selector: identifier_s
+    -
+      name: title_AR_t
+      selector: title_AR_t
+    -
+      name: title_EN_t
+      selector: title_EN_t
+    -
+      name: title_ES_t
+      selector: title_ES_t
+    -
+      name: title_FR_t
+      selector: title_FR_t
+    -
+      name: title_RU_t
+      selector: title_RU_t
+    -
+      name: title_ZH_t
+      selector: title_ZH_t
+    -
+      name: schema_AR_t
+      selector: schema_AR_t
+    -
+      name: summary_EN_t
+      selector: summary_EN_t
+    -
+      name: summary_ES_t
+      selector: summary_ES_t
+    -
+      name: summary_FR_t
+      selector: summary_FR_t
+    -
+      name: summary_RU_t
+      selector: summary_RU_t
+    -
+      name: summary_ZH_t
+      selector: summary_ZH_t
+    -
+      name: reportType_EN_t
+      selector: reportType_EN_t
+    -
+      name: documentLinks_s
+      selector: documentLinks_s
+    -
+      name: government_s
+      selector: government_s
+    -
+      name: startDate_s
+      selector: startDate_s
+    -
+      name: url_ss
+      selector: url_ss
+
+  ids:
+    identifier_s:
+      type: string
+
+process:
+
+  uid: constants/USER_CONTENT_MANAGER
+
+  type:
+    plugin: default_value
+    default_value: document
+
+  langcode:
+    plugin: default_value
+    default_value: en
+
+  title: title_EN_t
+  body: summary_EN_t
+
+  moderation_state:
+    plugin: default_value
+    default_value: published
+
+  field_document_type:
+    source: reportType_EN_t
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: field_interop_scbd_multivalued
+    bundle: document_types
+    bundle_key: vid
+    ignore_case: true
+    destination_field: field_document_type
+
+  field_files:
+    -
+      plugin: cbd_api_document_link
+      source: documentLinks_s
+    -
+      plugin: import_managed_file
+      destination_dir: public://documents/nbsap/
+      reuse_file: true
+
+  field_government:
+    plugin: country_from_iso_code
+    source: government_s
+
+  field_publication_date: startDate_s
+
+  field_source:
+    -
+      plugin: default_value
+      default_value: SCBD
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: name
+      bundle: data_source
+      bundle_key: vid
+      ignore_case: true
+
+  field_url: url_ss
+
+destination:
+  plugin: 'cbd:node'
+migration_dependencies: null

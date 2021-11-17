@@ -1,0 +1,12 @@
+// Show focus outlines only if navigating with keyboard
+body:not(.show-focus-outlines) {
+  button,
+  .btn,
+  .btn-link,
+  [tabindex],
+  input, select, textarea {
+    &:focus, &:active, &:active:focus {
+      outline: none !important;
+    }
+  }
+}

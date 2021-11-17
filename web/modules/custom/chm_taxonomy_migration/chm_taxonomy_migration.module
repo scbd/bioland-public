@@ -1,0 +1,47 @@
+<?php
+
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
+
+/**
+ * Implements hook_cron().
+ */
+function chm_taxonomy_migration_cron() {
+  /** @var \Drupal\Core\DrupalKernel $kernel */
+  $kernel = \Drupal::service('kernel');
+
+  if (!preg_match('/\/default/', $kernel->getSitePath())) {
+    /** @var \Drupal\migrate\Plugin\MigrationPluginManager $service */
+    $service = \Drupal::service('plugin.manager.config_entity_migration');
+    $migrate_last_imported_store = \Drupal::keyValue('migrate_last_imported');
+
+    $module_path = drupal_get_path('module', 'chm_taxonomy_migration');
+    $pattern = "{$module_path}/config/install/migrate_plus.migration.common_*.yml";
+    $files = glob($pattern);
+    foreach ($files as $file) {
+      if (preg_match('/migrate\_plus\.migration\.(common\_.+)\.yml/', $file, $matches)) {
+        $migrationName = $matches[1];
+        $last_run_variable_name = "chm_taxonomy_migration.migration_last_run.{$migrationName}";
+        $last_run = \Drupal::state()->get($last_run_variable_name);
+        if (empty($last_run) || (time() - $last_run) >= 60 * 60 * 24 /* 24 hours */) {
+          /** @var \Drupal\migrate\Plugin\Migration $migration */
+          if ($migration = $service->createInstance($migrationName)) {
+            if ($migration->getStatus() == MigrationInterface::STATUS_IDLE) {
+              $migration->setTrackLastImported(TRUE);
+              $migration->getIdMap()->prepareUpdate();
+              $executable = new MigrateExecutable($migration, new MigrateMessage());
+              $executable->import();
+              \Drupal::state()->set($last_run_variable_name, time());
+              $migrate_last_imported_store->set($migration->id(), round(microtime(TRUE) * 1000));
+            }
+          }
+          else {
+            \Drupal::logger('migrate')
+              ->critical(t('Could\'t run migration @migration', ['@migration' => $migrationName]));
+          }
+        }
+      }
+    }
+  }
+}

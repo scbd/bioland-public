@@ -1,0 +1,28 @@
+gbifstats.settings:
+  type: config_object
+  label: 'GBIF Stats settings'
+  mapping:
+    gbifstats:
+      type: mapping
+      mapping:
+        page_title:
+          type: text
+          label: 'Titre de la page GBIF Stats :'
+        country_code:
+          type: text
+          label: 'Code en 2 lettres du pays pour lequel on souhaite les données :'
+        node_name:
+          type: text
+          label: 'Nom du noeud national :'
+        website:
+          type: text
+          label: 'Adresse URL du site internet du noeud :'
+        head_delegation:
+          type: text
+          label: 'Nom du chef de délégation :'
+        node_manager:
+          type: text
+          label: 'Nom du responsable du point nodal :'
+        link_page_GBIF:
+          type: text
+          label: 'Adresse URL de la page GBIF concernant le noeud national :'

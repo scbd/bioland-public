@@ -1,0 +1,23 @@
+bioland promote content:
+  title: 'Promote content to front page.'
+bioland edit statistics block:
+  title: 'Access and change the settings for the Content statistics block.'
+bioland edit basic site settings:
+  title: 'Change site name, email address, slogan, default front page, and error pages.'
+bioland manage cron settings:
+  title: 'Manage automatic site maintenance tasks.'
+bioland manage datetime settings:
+  title: 'Configure how dates and times are displayed.'
+bioland edit theme settings:
+  title: 'Configure Bioland theme settings.'
+bioland manage maintenance mode:
+  title: 'Take the site offline for updates and other maintenance tasks.'
+bioland manage regional settings:
+  title: 'Configure the locale and timezone settings.'
+bioland manage revisions information:
+  title: 'Configure revision related information on the edit note page.'
+bioland access cache rebuild:
+  title: 'Access the cache rebuild page.'
+bioland create national accounts:
+  title: 'Create new accounts into your national website.'
+  restrict access: true

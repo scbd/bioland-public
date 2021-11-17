@@ -1,0 +1,109 @@
+langcode: en
+status: true
+dependencies: {  }
+id: common_sdg
+migration_tags: null
+migration_group: chm_common_taxonomies
+label: Sustainable Development Goals
+source:
+  plugin: chm_url
+  migration_id: common_sdg
+  data_fetcher_plugin: http
+  data_parser_plugin: chm_json
+  urls: 'https://www.chm-cbd.net/ws-provider/taxonomy/sdg'
+  item_selector: /
+  ids:
+    tid:
+      type: integer
+    langcode:
+      type: string
+  translations: true
+  fields:
+    -
+      name: tid
+      selector: tid/0/value
+    -
+      name: uuid
+      selector: uuid
+    -
+      name: vid
+      selector: vid/0/target_id
+    -
+      name: parent
+      selector: parent/0/target_id
+    -
+      name: langcode
+      selector: langcode/0/value
+    -
+      name: weight
+      selector: weight/0/value
+    -
+      name: default_langcode
+      selector: default_langcode/0/value
+    -
+      name: content_translation_source
+      selector: content_translation_source/0/value
+    -
+      name: name
+      selector: name
+    -
+      name: description
+      selector: description
+    -
+      name: field_date
+      selector: field_date
+    -
+      name: field_image_url
+      selector: field_image_url/0/uri
+    -
+      name: field_index
+      selector: field_index
+    -
+      name: field_official_name
+      selector: field_official_name
+    -
+      name: field_planning_item_type
+      selector: field_planning_item_type
+process:
+  vid:
+    plugin: default_value
+    default_value: sdg
+  name: name
+  description: description
+  changed: timestamp
+  langcode: langcode
+  weight: weight
+  # Only attempt to stub real (non-zero) parents.
+  parent:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration: common_sdg
+      source:
+        - parent
+  # Custom fields
+  field_date: field_date
+  field_image_url: field_image_url
+  field_index: field_index
+  field_official_name: field_official_name
+  field_planning_item_type:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: field_planning_item_type
+    -
+      plugin: extract
+      default: null
+      index:
+        - 0
+        - target_id
+    -
+      plugin: migration_lookup
+      migration: common_planning_item_type
+destination:
+  plugin: 'entity:taxonomy_term'
+  translations: true
+migration_dependencies: null

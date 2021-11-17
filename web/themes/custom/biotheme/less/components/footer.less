@@ -1,0 +1,83 @@
+.footer {
+  // .row {
+  //   display: flex;
+  //   align-items: center;
+  //   // breakpoint of columns
+  //   @media (max-width: @screen-xs-max) {
+  //     flex-direction: column;
+  //     text-align: center;
+  //   }
+  // }
+  .row + .row {
+    margin-top: 1em;
+  }
+  @media (max-width: @screen-xs-max) {
+    .col-sm-3 + .col-sm-3:not(:empty) {
+      margin-top: 1em;
+    }
+  }
+}
+
+.footer__top,
+.footer__bottom {
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.footer__top {
+  background-color: @footer-bg;
+  color: #fff;
+
+  nav h2 {
+    margin-top: 0;
+  }
+
+  .nav > li > a {
+    padding: .4em 0;
+  }
+
+  .nav > li > a:hover,
+  .nav > li > a:focus {
+    background-color: transparent;
+    color: #cdcdcd;
+  }
+
+}
+
+.footer__bottom {
+  .row {
+    display: flex;
+    align-items: center;
+    // breakpoint of columns
+    @media (max-width: @screen-xs-max) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+
+.biolandfootersocialmedia a.fa:before {
+  font-size: 1.3em;
+  margin-right: .3em;
+  width: 1.4em;
+}
+
+.block-biolandfooter--region-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  > a {
+    margin-left: .5em;
+  }
+}
+
+.biolandfooter--region-footer {
+  .list-unstyled();
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  > li > a {
+    color: @text-color-green;
+    padding: 0 .5em;
+  }
+}

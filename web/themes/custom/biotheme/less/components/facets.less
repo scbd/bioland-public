@@ -1,0 +1,32 @@
+.item-list__checkbox {
+  .list-unstyled();
+  margin-left: .3em;
+  padding-left: .5em;
+  padding-top: .5em;
+}
+.facet-title {
+  color: inherit;
+  &:hover, &:focus {
+    color: inherit;
+    text-decoration: none;
+  }
+  > .caret {
+    color: inherit;
+    margin-right: .3em;
+  }
+  &.collapsed > .caret {
+    transform: rotate(-90deg);
+  }
+}
+.facet-item {
+  display: flex;
+  label {
+    font-weight: normal;
+    margin-left: .3em;
+  }
+}
+
+// Search page filters
+.path-search .region-sidebar-first:extend(.well) {
+  padding: .8em;
+}

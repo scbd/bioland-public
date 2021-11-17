@@ -1,0 +1,18 @@
+{%
+set classes = [
+'bio-slideshow-item',
+]
+%}
+
+{% if content %}
+<div{{ attributes.addClass(classes) }}>
+  <div class="bio-slideshow-item__media">
+    {{ content.media }}
+  </div>
+  <div class="bio-slideshow-item__caption">
+    <div class="bio-slideshow-item__caption-inner">
+      {{ content.caption }}
+    </div>
+  </div>
+</div>
+{% endif %}

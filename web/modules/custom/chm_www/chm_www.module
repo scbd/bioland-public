@@ -1,0 +1,89 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\taxonomy\TermInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\views\ViewExecutable;
+
+function _chm_www_update_field_www_id(FieldableEntityInterface &$entity) {
+  /** @var \Drupal\Core\DrupalKernel $kernel */
+  $kernel = \Drupal::service('kernel');
+  if (preg_match('/\/default$/', $kernel->getSitePath())) {
+    if ($entity->hasField('field_www_id') && !empty($entity->id())) {
+      $entity->set('field_www_id', $entity->id());
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function chm_www_taxonomy_term_presave(TermInterface $term) {
+  _chm_www_update_field_www_id($term);
+
+  if ($term->hasField('field_image_url') && $term->hasField('field_image')) {
+    $imageVal = $term->field_image->getValue();
+    if (!empty($imageVal)) {
+      /** @var \Drupal\file\Entity\File $image */
+      $image = $term->field_image->entity;
+      $url = file_create_url($image->getFileUri());
+      $term->set('field_image_url', $url);
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function chm_www_taxonomy_term_insert(TermInterface $term) {
+  _chm_www_update_field_www_id($term);
+  $term->save();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function chm_www_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Edit field_countries widget to support only single values
+  // for certain content types.
+  // This isn't done with field settings for faceted reuse.
+  $content_types = ['chm_site'];
+  foreach ($content_types as $content_type) {
+    $form_ids = [
+      'node_' . $content_type . '_form',
+      'node_' . $content_type . 'edit_form',
+    ];
+    if (in_array($form_id, $form_ids)) {
+      // Select list widget.
+      $form['field_countries']['widget']['#multiple'] = 0;
+      // Autocomplete widget.
+      unset($form['field_countries']['widget']['add_more']);
+      unset($form['field_countries']['widget'][1]);
+      break;
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function chm_www_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'ws_provider_taxonomy') {
+    // https://www.drupal.org/project/drupal/issues/2543726
+    /** @var \Drupal\taxonomy\TermStorage $termStorage */
+    $termStorage = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term");
+    foreach ($view->result as &$resultRow) {
+      /** @var \Drupal\taxonomy\Entity\Term $entity */
+      $entity = &$resultRow->_entity;
+      $parents = $termStorage->loadParents($entity->id());
+      $parentsValue = [];
+      foreach ($parents as $parent) {
+        /** @var \Drupal\taxonomy\Entity\Term $parent */
+        $parentsValue[] = $parent->id();
+      }
+      if (!empty($parentsValue)) {
+        $entity->set('parent', $parentsValue);
+      }
+    }
+  }
+}

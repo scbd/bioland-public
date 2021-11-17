@@ -1,0 +1,25 @@
+{% spaceless %}
+<div class="{{ class }}">
+<ul class="list-unstyled">
+    {% for ctype in data %}
+        <li>
+            {% if ctype['#url'] %}
+                <a class="content-types-item" href="{{- ctype['#url'] -}}">
+                    {% if ctype['#icon'] is not empty %}
+                    <span class="fa fa-{{- ctype['#icon'] -}}"></span>
+                    {% endif %}
+                    {{- ctype['#label'] -}}
+                </a>
+            {% else %}
+                <p class="content-types-item">
+                    {% if ctype['#icon'] is not empty %}
+                        <span class="fa fa-{{- ctype['#icon'] -}}"></span>
+                    {% endif %}
+                    {{- ctype['#label'] -}}
+                </p>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endspaceless %}

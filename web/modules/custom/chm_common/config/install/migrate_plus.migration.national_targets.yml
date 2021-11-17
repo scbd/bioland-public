@@ -1,0 +1,90 @@
+uuid: 42afddf1-7e8b-4043-b54b-eb65b8d9b835
+langcode: en
+status: true
+id: national_targets
+migration_tags:
+  - scbd
+  - remote
+migration_group: scbd
+label: 'Migrate national targets from SCBD API specific to this instance'
+source:
+  constants:
+    USER_CONTENT_MANAGER: 35
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: scbd_2013_national_targets
+  urls: 'https://chm.cbd.int/api/v2013/index/select'
+  item_selector: /
+  configuration:
+    paginator_parameter: start
+    pagesize_parameter: rows
+    pagesize_value: 100
+  fields:
+    -
+      name: id
+      selector: id
+    -
+      name: title_s
+      selector: title_s
+    -
+      name: url_ss
+      selector: url_ss/0
+    -
+      name: description_s
+      selector: description_s
+    -
+      name: aichiTargets_ss
+      selector: aichiTargets_ss
+
+  ids:
+    id:
+      type: string
+
+process:
+
+  uid: constants/USER_CONTENT_MANAGER
+
+  type:
+    plugin: default_value
+    default_value: national_target
+
+  langcode:
+    plugin: default_value
+    default_value: en
+
+  title:
+    plugin: substr
+    source: title_s
+    start: 0
+    length: 120
+
+  field_source:
+    -
+      plugin: default_value
+      default_value: SCBD
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: name
+      bundle: data_source
+      bundle_key: vid
+      ignore_case: true
+
+  field_url: url_ss
+
+  field_full_title: title_s
+
+  body: description_s
+
+  field_aichi_targets:
+    plugin: entity_lookup
+    source: aichiTargets_ss
+    entity_type: taxonomy_term
+    value_key: field_interop_scbd
+    bundle: aichi_biodiversity_targets
+    bundle_key: vid
+
+destination:
+  plugin: 'cbd:node'
+
+migration_dependencies: null

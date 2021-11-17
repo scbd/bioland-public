@@ -1,0 +1,11 @@
+chm_common.chosen:
+  version: 1.0
+  css:
+    theme:
+      css/chm_common.css: {}
+
+chm_common.content_edit_forms:
+  version: 1.0
+  css:
+    theme:
+      css/content_edit_forms.css: {}

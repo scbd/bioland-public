@@ -1,0 +1,27 @@
+{%
+set classes = [
+'bio-homepage',
+]
+%}
+
+{% if content %}
+  <div{{ attributes.addClass(classes) }}>
+    <div class="row">
+      <div class="bio-homepage__slideshow col-sm-12">
+        <div {{ region_attributes.slideshow }}>
+          {{ content.slideshow }}
+        </div>
+      </div>
+      <div class="bio-homepage__left col-sm-9">
+        <div {{ region_attributes.left }}>
+          {{ content.left }}
+        </div>
+      </div>
+      <div class="bio-homepage__right col-sm-3">
+        <div {{ region_attributes.right }}>
+          {{ content.right }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
