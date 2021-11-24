@@ -26,7 +26,6 @@
     "bower-asset/slick-carousel": "^1.8",
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "^1.6.5",
-    "drupal-composer/drupal-scaffold": "^2.5",
     "drupal/address": "^1.6",
     "drupal/admin_toolbar": "^2.4",
     "drupal/auditfiles": "^2.2",
@@ -40,7 +39,7 @@
     "drupal/config_update": "^1.6",
     "drupal/console": "^1.0.2",
     "drupal/content_sync": "^2.1",
-    "drupal/core": "8.9.16",
+    "drupal/core": "8.9.20",
     "drupal/crop": "^1.5",
     "drupal/css_editor": "^1.2",
     "drupal/ctools": "^3.2",
@@ -106,7 +105,6 @@
     "harvesthq/chosen": "^1.8",
     "npm-asset/blazy": "^1.8",
     "npm-asset/chosen-js": "^1.8",
-    "oomphinc/composer-installers-extender": "^1.1",
     "richardbporter/drush-users-commands": "^2.1",
     "vlucas/phpdotenv": "^2.4",
     "webflo/drupal-finder": "^1.0.0",
@@ -167,12 +165,6 @@
           "web/profiles/contrib/{$name}": ["type:drupal-profile"],
           "web/themes/contrib/{$name}": ["type:drupal-theme"],
           "drush/Commands/{$name}": ["type:drupal-drush"]
-      },
-      "drupal-scaffold": {
-          "initial": {
-              ".editorconfig": "../.editorconfig",
-              ".gitattributes": "../.gitattributes"
-          }
       },
       "patches": {
           "drupal/core": {
