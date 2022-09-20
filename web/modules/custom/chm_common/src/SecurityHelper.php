@@ -27,7 +27,8 @@ class SecurityHelper {
     $input_roles['#access'] = $input_roles['#access'] || $user->hasPermission(self::PERMISSION_CREATE_NATIONAL_ACCOUNT);
     // Other roles than 'System administrators' can only create lesser accounts.
     if (!self::userIsAdministrator()) {
-      drupal_set_message(
+      
+      \Drupal::messenger()->addMessage(
         t('Choose <b>@cm_role_name</b> role to allow other people to contribute content into your website. <b>@sm_role_name</b> allows full management of the website!',
           ['@cm_role_name' => 'Content Manager', '@sm_role_name' => 'Site Manager']),
         'warning');
@@ -62,7 +63,7 @@ class SecurityHelper {
    * Add a note to the page to avoid issues later in the project.
    */
   public static function showRestrictedFunctionalityWarning() {
-    drupal_set_message(t('This screen has restricted functionality. All the options are shown to the technical support team.'), 'status');
+    \Drupal::messenger()->addMessage(t('This screen has restricted functionality. All the options are shown to the technical support team.'), 'status');
   }
 
 }

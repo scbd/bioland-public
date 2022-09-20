@@ -1,7 +1,8 @@
 name: 'CHM common functionality'
 description: Contains code shared among the entire CHM Network sites. This module is ENABLED in all sites!
 type: module
-core: 8.x
+core_version_requirement: 9.x
+
 package: Bioland
 config_devel:
   install:
