@@ -33,3 +33,4 @@ yarn.*
 *.sql.gz
 *.tgz
 TODO.md
+.DS_Store
