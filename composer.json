@@ -69,6 +69,7 @@
         "drupal/inline_responsive_images": "*",
         "drupal/layout_builder_modal": "*",
         "drupal/layout_builder_restrictions": "*",
+        "drupal/leaflet": "*",
         "drupal/linkit": "^6.0@beta",
         "drupal/mailsystem": "*",
         "drupal/menu_block": "*",
@@ -188,6 +189,6 @@
             "merge-scripts": false
         },
         "patches": {   
-	    }
+            }
     }
 }
