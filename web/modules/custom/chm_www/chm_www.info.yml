@@ -1,5 +1,5 @@
 name: 'CHM Network specific code'
 description: Contains code specific to CHM Network (www) site. This module is NOT ENABLED in other sites!
 type: module
-core: 8.x
+core_version_requirement: 9.x
 package: Bioland

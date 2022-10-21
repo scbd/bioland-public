@@ -293,7 +293,7 @@ chm_common.dashboard.structure.url_aliases:
   title: 'Manage URL aliases'
   description: 'Configure the URL pattern for your content. Controls how automated links are generated when adding new content'
   parent: chm_common.dashboard.structure
-  route_name: path.admin_overview
+  route_name: entity.path_alias.collection
   menu_name: dashboard
   weight: 35
   options:

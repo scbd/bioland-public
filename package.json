@@ -7,7 +7,8 @@
   "scripts": {
     "clean-install": "if test -f yarn.lock; then rm yarn.lock; fi && if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
   },
-  "devDependencies": {
-    "bioland-config": "scbd/bioland-config"
+  "dependencies": {
+    "bioland-cli": "https://github.com/scbd/bioland-cli.git",
+    "bioland-config": "https://github.com/scbd/bioland-config.git"
   }
 }
