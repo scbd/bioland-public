@@ -1,6 +1,6 @@
 {
-    "name": "drupal-composer/drupal-project",
-    "description": "Project template for Drupal 8 projects with composer",
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal 9 projects with a relocated document root",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/drupal",
@@ -10,7 +10,7 @@
     },
     "authors": [
         {
-            "name": "",
+            "name": "CBDITteam <cbditteam@un.org>",
             "role": ""
         }
     ],
@@ -22,10 +22,13 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "vcs",
+             "url": "https://github.com/gbiffrance/Drupal8-gbifstats"
         }
     ],
     "require": {
-        "php": ">=8.1",
         "bower-asset/slick-carousel": "*",
         "composer/installers": "*",
         "cweagans/composer-patches": "*",
@@ -41,7 +44,7 @@
         "drupal/config_devel": "*",
         "drupal/config_update": "*",
         "drupal/content_sync": "^3.0@beta",
-        "drupal/core": "^9.4",
+        "drupal/core": "*",
         "drupal/core-composer-scaffold": "^9.4",
         "drupal/core-project-message": "^9.4",
         "drupal/core-recommended": "^9.4",
@@ -174,6 +177,9 @@
             "initial": {
                 ".editorconfig": "../.editorconfig",
                 ".gitattributes": "../.gitattributes"
+            },
+            "locations": {
+                "web-root": "web/"
             }
         },
         "merge-plugin": {
