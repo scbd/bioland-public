@@ -1,7 +1,7 @@
 name: 'CHM Taxonomy Migration'
 description: Provides definitions and code to synchronize taxonomy from www->node instances
 type: module
-core: 8.x
+core_version_requirement: 9.x
 package: Bioland
 dependencies:
   - taxonomy

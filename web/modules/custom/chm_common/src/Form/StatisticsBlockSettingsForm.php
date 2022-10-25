@@ -21,7 +21,7 @@ class StatisticsBlockSettingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $content_types = \Drupal::service('entity.manager')->getStorage('node_type')->loadMultiple();
+    $content_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
     $idx = 0;
     $rows = [];
     $headers = [
