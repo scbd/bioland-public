@@ -22,10 +22,6 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
-        },
-        {
-            "type": "vcs",
-             "url": "https://github.com/gbiffrance/Drupal8-gbifstats"
         }
     ],
     "require": {
@@ -42,6 +38,8 @@
         "drupal/chosen": "*",
         "drupal/colorbox": "^1.10",
         "drupal/config_devel": "*",
+        "drupal/config_filter": "*",
+        "drupal/config_split": "*",
         "drupal/config_update": "*",
         "drupal/content_sync": "^3.0@beta",
         "drupal/core": "*",
@@ -84,6 +82,7 @@
         "drupal/paragraphs": "*",
         "drupal/pathauto": "*",
         "drupal/raven": "*",
+        "drupal/recaptcha": "*",
         "drupal/redirect": "*",
         "drupal/reroute_email": "*",
         "drupal/responsive_favicons": "*",
@@ -97,8 +96,9 @@
         "drupal/spamspan": "*",
         "drupal/stage_file_proxy": "*",
         "drupal/string_field_formatter": "*",
-        "drupal/symfony_mailer": "*",
+        "drupal/structure_sync": "*",
         "drupal/swiftmailer": "*",
+        "drupal/symfony_mailer": "*",
         "drupal/token": "*",
         "drupal/video_embed_field": "*",
         "drupal/webform": "*",
