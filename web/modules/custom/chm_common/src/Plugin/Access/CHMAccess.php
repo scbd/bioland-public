@@ -14,7 +14,7 @@ class CHMAccess {
    * Only give access to biotheme for any user besides user1.
    */
   public function accessTheme(AccountInterface $account, $theme) {
-    return AccessResult::allowedIf($account->id() == 1 || $theme == 'biotheme');
+    return AccessResult::allowedIf(in_array('authenticated', $account->getRoles()) && in_array('administrator', $account->getRoles()));
   }
 
 }
