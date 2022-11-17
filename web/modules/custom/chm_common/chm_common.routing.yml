@@ -20,4 +20,4 @@ chm_common.statistics_settings:
     _form: '\Drupal\chm_common\Form\StatisticsBlockSettingsForm'
     _title: 'Statistics block settings'
   requirements:
-    _permission: 'edit statistics block'
+    _permission: 'bioland edit statistics block'
