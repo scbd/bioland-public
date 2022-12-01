@@ -44,7 +44,7 @@
     {% endif %}
 
     {#/*  Check if we have stats */#}
-    {% if message_erreur is not sameas("NoError") %}
+    {% if message_erreur is not same as("NoError") %}
         <p>La page a rencontrée une erreur : </p>
         <p></p>
         <p>{{ message_erreur }}</p>
@@ -54,12 +54,12 @@
 
         <div class="stats-rond col-xs-12 col-sm-6">
 
-        {% if nb_publishers  is not sameas("NoSelect") or  nb_occurrences  is not sameas("NoSelect") %}
+        {% if nb_publishers  is not same as("NoSelect") or  nb_occurrences  is not same as("NoSelect") %}
             <p class="stats_texte">Sur le GBIF, pour la zone sélectionnée,</p>
         {% endif %}
 
         {#/*  Number of publishers number */#}
-        {% if nb_publishers is not sameas("NoSelect") %}
+        {% if nb_publishers is not same as("NoSelect") %}
 
             {% if country_param != country_code %}
                 <p class="stats_chiffre">{{ nb_publishers }}</p>
@@ -74,7 +74,7 @@
         {% endif %}
 
         {#/*  Number of Occurrences number */#}
-        {% if nb_occurrences is not sameas("NoSelect") %}
+        {% if nb_occurrences is not same as("NoSelect") %}
 
             {% if nb_occurrences|length > 0 %}
                 <p class="stats_chiffre"><a href="https://www.gbif.org/fr/occurrence/search?country={{ country_param }}&advanced=1" target="_blank">{{ nb_occurrences }}</a></p>
@@ -90,7 +90,7 @@
         {#/*  End Number of Publishers & Occurrences number */#}
 
         {#/*  Last datasets  */#}
-        {% if last_datasets is not sameas("NoSelect") %}
+        {% if last_datasets is not same as("NoSelect") %}
 
             <div class="stats-dataset col-xs-12 col-sm-6">
 
@@ -125,7 +125,7 @@
 
     {#/*  GBIF Maps */#}
     {#/*  see js/gbifstats.js */#}
-    {% if display_map is sameas("oui") %}
+    {% if display_map is same as("oui") %}
         {{ attach_library('gbifstats/gbifstats') }}
         <div id= "gbifstatsmap"></div>
     {% endif %}
